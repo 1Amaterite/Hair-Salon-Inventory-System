@@ -1,5 +1,9 @@
 # Hair-Salon-Inventory-System
 
+## Before all
+npm install
+.env.example (change to what you need with your local PostgreSQL pass)
+
 ## Contributing Guidelines
 
 For every change, consider the following:
@@ -8,7 +12,7 @@ For every change, consider the following:
 
 2. Create a new branch for each task or feature
 
-3. Commit frequently (clear messaging is a bonus lol)
+3. Commit frequently
 
 4. Open a pull request (PR) for review when you consider your task to be done
 

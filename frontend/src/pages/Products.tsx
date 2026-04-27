@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { productsApi, Product } from '../api/products';
 import SideNavigation from '../components/SideNavigation';
-import { Package, AlertTriangle, CheckCircle, Search, ArrowUpDown, Box, DollarSign, Tag } from 'lucide-react';
+import { Package, AlertTriangle, CheckCircle, Search, ArrowUpDown, Box, DollarSign, Tag, XCircle } from 'lucide-react';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -345,11 +345,18 @@ const Products: React.FC = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${
-                              product.isLowStock
+                              product.currentStock === 0
+                                ? 'bg-red-100 text-red-800'
+                                : product.isLowStock
                                 ? 'bg-yellow-100 text-yellow-800'
                                 : 'bg-green-100 text-green-800'
                             }`}>
-                              {product.isLowStock ? (
+                              {product.currentStock === 0 ? (
+                                <>
+                                  <XCircle className="w-3 h-3" />
+                                  Out of Stock
+                                </>
+                              ) : product.isLowStock ? (
                                 <>
                                   <AlertTriangle className="w-3 h-3" />
                                   Low Stock

@@ -18,13 +18,11 @@ app.set('views', path.join(__dirname, 'views'));
 const authRoutes = require('./routes/authRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const productRoutes = require('./routes/productRoutes');
-const exampleRoutes = require('./routes/exampleRoutes');
 
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/example', exampleRoutes);
 
 // Basic Route for Testing
 app.get('/', (req, res) => {
@@ -50,14 +48,6 @@ app.get('/', (req, res) => {
                 statistics: 'GET /api/products/statistics'
             },
             transactions: '/api/transactions',
-            examples: {
-                public: 'GET /api/example/public',
-                protected: 'GET /api/example/protected',
-                adminOnly: 'GET /api/example/admin-only',
-                staffOrAdmin: 'GET /api/example/staff-or-admin',
-                roleSpecific: 'GET /api/example/role-specific',
-                adjustment: 'POST /api/example/adjustment'
-            },
             health: '/api/health'
         },
         usage: {

@@ -32,6 +32,10 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
     navigate('/transactions/recent');
   };
 
+  const handleReports = () => {
+    navigate('/admin/reports');
+  };
+
   const handleLogout = async () => {
     await logout();
     navigate('/login');
@@ -62,6 +66,13 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
       onClick: handleAddProduct,
       show: config.showAddProduct && user?.role === 'ADMIN',
       active: isActiveRoute('/products/add')
+    },
+    {
+      key: 'reports',
+      label: 'Reports',
+      onClick: handleReports,
+      show: config.showReports && user?.role === 'ADMIN',
+      active: isActiveRoute('/admin/reports')
     },
     {
       key: 'recent-transactions',

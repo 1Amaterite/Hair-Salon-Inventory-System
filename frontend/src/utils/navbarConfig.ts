@@ -6,6 +6,7 @@ export const NAVBAR_CONFIG = {
     showViewProducts: true,
     showNewTransaction: true,
     showAddProduct: true, // Will only show for admin users
+    showReports: true, // Will only show for admin users
     showRecentTransactions: false,
   },
   
@@ -14,6 +15,7 @@ export const NAVBAR_CONFIG = {
     showViewProducts: true,
     showNewTransaction: true,
     showAddProduct: true,
+    showReports: true,
     showRecentTransactions: false,
   },
   
@@ -22,6 +24,7 @@ export const NAVBAR_CONFIG = {
     showViewProducts: true,
     showNewTransaction: true,
     showAddProduct: true,
+    showReports: true,
     showRecentTransactions: true,
   }
 } as const;

@@ -341,7 +341,7 @@ const Products: React.FC = () => {
                             {product.reorderThreshold}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            ${Number(product.retailPrice).toFixed(2)}
+                            ₱{Number(product.retailPrice).toFixed(2)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${

@@ -5,6 +5,7 @@ import Transactions from './pages/Transactions';
 import Products from './pages/Products';
 import AddProduct from './pages/AddProduct';
 import RecentTransactions from './pages/RecentTransactions';
+import Reports from './pages/Reports';
 import { UserProvider } from './contexts/UserContext';
 
 // Protected Route Component
@@ -75,6 +76,14 @@ function App() {
                   <RecentTransactions />
                 </ProtectedRoute>
             } 
+          />
+          <Route
+            path="/admin/reports"
+            element={
+              <AdminRoute>
+                <Reports />
+              </AdminRoute>
+            }
           />
           <Route path="/" element={<Navigate to="/transactions" replace />} />
           </Routes>

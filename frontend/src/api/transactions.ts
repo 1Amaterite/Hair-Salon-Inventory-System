@@ -35,19 +35,16 @@ export interface TransactionsResponse {
   message: string;
   data: Transaction[];
   pagination: {
-    page: number;
     limit: number;
     total: number;
-    pages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
+    offset?: number;
   };
 }
 
 export const transactionsApi = {
   getTransactions: async (params?: {
-    page?: number;
     limit?: number;
+    offset?: number;
     productId?: string;
     type?: string;
     startDate?: string;

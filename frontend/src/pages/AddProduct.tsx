@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { productsApi, CreateProductRequest } from '../api/products';
+import Navbar from '../components/Navbar';
 
 const AddProduct: React.FC = () => {
   const [productData, setProductData] = useState<CreateProductRequest>({
@@ -16,7 +16,6 @@ const AddProduct: React.FC = () => {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const navigate = useNavigate();
 
   const categories = [
     'Hair Care',
@@ -68,25 +67,14 @@ const AddProduct: React.FC = () => {
     }));
   };
 
-  const handleBack = () => {
-    navigate('/products');
-  };
-
+  
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-gray-900">Add New Product</h1>
-            <button
-              onClick={handleBack}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              ← Back to Products
-            </button>
-          </div>
-        </div>
-      </div>
+      <Navbar 
+        title="Add New Product"
+        backText="Back to Products"
+        onBackClick={() => {/* Handled by Navbar */}}
+      />
 
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
@@ -270,14 +258,7 @@ const AddProduct: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-3">
-                  <button
-                    type="button"
-                    onClick={handleBack}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Cancel
-                  </button>
+                <div className="flex justify-center">
                   <button
                     type="submit"
                     disabled={loading || !productData.sku || !productData.name || 

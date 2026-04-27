@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { productsApi, Product } from '../api/products';
+import Navbar from '../components/Navbar';
+import { useUser } from '../contexts/UserContext';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
     fetchProducts();
@@ -27,20 +28,7 @@ const Products: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
-
-  const handleNewTransaction = () => {
-    navigate('/transactions');
-  };
-
-  const handleAddProduct = () => {
-    navigate('/products/add');
-  };
-
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -51,33 +39,11 @@ const Products: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-            <div className="flex space-x-3">
-              <button
-                onClick={handleAddProduct}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                Add Product
-              </button>
-              <button
-                onClick={handleNewTransaction}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                New Transaction
-              </button>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Navbar 
+        title="Products"
+        showAddProduct={true}
+        showNewTransaction={true}
+      />
 
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">

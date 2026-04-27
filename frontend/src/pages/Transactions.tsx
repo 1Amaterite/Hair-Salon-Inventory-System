@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { productsApi, Product } from '../api/products';
 import { transactionsApi, CreateTransactionRequest } from '../api/transactions';
+import Navbar from '../components/Navbar';
 
 const Transactions: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -12,7 +12,6 @@ const Transactions: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [fetchingProducts, setFetchingProducts] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
@@ -60,7 +59,6 @@ const Transactions: React.FC = () => {
         setQuantity('');
         setRemarks('');
         setTransactionType('INBOUND');
-        handleNewTransaction();
       } else {
         setMessage({ type: 'error', text: response.message });
       }
@@ -71,45 +69,15 @@ const Transactions: React.FC = () => {
     }
   };
 
-  const handleNewTransaction = () => {
-    navigate('/transactions');
-  };
-
-  const handleViewProducts = () => {
-    navigate('/products');
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
-
+  
   const selectedProductData = products.find(p => p.id === selectedProduct);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-gray-900">Create Transaction</h1>
-            <div className="flex space-x-3">
-              <button
-                onClick={handleViewProducts}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                View Products
-              </button>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Navbar 
+        title="Create Transaction"
+        showViewProducts={true}
+      />
 
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">

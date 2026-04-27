@@ -8,6 +8,8 @@ const Products: React.FC = () => {
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const Products: React.FC = () => {
     }, 300); // Debounce search by 300ms
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  }, [searchQuery, sortBy, sortOrder]);
 
   // Restore focus after search results update
   useEffect(() => {
@@ -39,13 +41,67 @@ const Products: React.FC = () => {
       if (searchQuery.trim()) {
         params.search = searchQuery.trim();
       }
+      
+      // Debug logging
+      console.log('Fetching products with params:', params);
+      
       const response = await productsApi.getProducts(params);
+      console.log('Products response:', response);
+      
       if (response.success) {
-        setProducts(response.data);
+        let sortedProducts = [...response.data];
+        
+        // Client-side sorting for all fields to ensure it works
+        sortedProducts.sort((a: Product, b: Product) => {
+          let aValue: any, bValue: any;
+          
+          switch (sortBy) {
+            case 'name':
+              aValue = a.name.toLowerCase();
+              bValue = b.name.toLowerCase();
+              break;
+            case 'sku':
+              aValue = a.sku.toLowerCase();
+              bValue = b.sku.toLowerCase();
+              break;
+            case 'category':
+              aValue = a.category.toLowerCase();
+              bValue = b.category.toLowerCase();
+              break;
+            case 'currentStock':
+              aValue = a.currentStock;
+              bValue = b.currentStock;
+              break;
+            case 'retailPrice':
+              aValue = Number(a.retailPrice);
+              bValue = Number(b.retailPrice);
+              break;
+            default:
+              return 0;
+          }
+          
+          if (sortOrder === 'asc') {
+            if (typeof aValue === 'string') {
+              return aValue.localeCompare(bValue);
+            } else {
+              return aValue - bValue;
+            }
+          } else {
+            if (typeof aValue === 'string') {
+              return bValue.localeCompare(aValue);
+            } else {
+              return bValue - aValue;
+            }
+          }
+        });
+        
+        console.log('Sorted products:', sortedProducts);
+        setProducts(sortedProducts);
       } else {
         setError(response.message);
       }
     } catch (err: any) {
+      console.error('Fetch products error:', err);
       setError(err.response?.data?.message || 'Failed to fetch products');
     } finally {
       if (!isSearch) {
@@ -163,21 +219,45 @@ const Products: React.FC = () => {
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
                     Inventory Products
                   </h3>
-                  <div className="relative">
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      placeholder="Search products..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onFocus={() => setIsSearchFocused(true)}
-                      onBlur={() => setIsSearchFocused(false)}
-                      className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
+                  <div className="flex items-center space-x-3">
+                    <div className="relative">
+                      <select
+                        value={`${sortBy}-${sortOrder}`}
+                        onChange={(e) => {
+                          const [newSortBy, newSortOrder] = e.target.value.split('-');
+                          setSortBy(newSortBy);
+                          setSortOrder(newSortOrder as 'asc' | 'desc');
+                        }}
+                        className="block w-48 pl-3 pr-8 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      >
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="sku-asc">SKU (A-Z)</option>
+                        <option value="sku-desc">SKU (Z-A)</option>
+                        <option value="category-asc">Category (A-Z)</option>
+                        <option value="category-desc">Category (Z-A)</option>
+                        <option value="currentStock-asc">Stock (Low to High)</option>
+                        <option value="currentStock-desc">Stock (High to Low)</option>
+                        <option value="retailPrice-asc">Price (Low to High)</option>
+                        <option value="retailPrice-desc">Price (High to Low)</option>
+                      </select>
+                    </div>
+                    <div className="relative">
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        placeholder="Search products..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onFocus={() => setIsSearchFocused(true)}
+                        onBlur={() => setIsSearchFocused(false)}
+                        className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>

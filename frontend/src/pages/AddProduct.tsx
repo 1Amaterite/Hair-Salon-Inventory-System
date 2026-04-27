@@ -13,6 +13,7 @@ const AddProduct: React.FC = () => {
     retailPrice: 0,
     reorderThreshold: 0,
     leadTimeDays: 0,
+    initialStock: 0,
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -249,6 +250,26 @@ const AddProduct: React.FC = () => {
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="0"
                     />
+                  </div>
+
+                  {/* Initial Stock */}
+                  <div>
+                    <label htmlFor="initialStock" className="block text-sm font-medium text-gray-700">
+                      Initial Stock Quantity
+                    </label>
+                    <input
+                      type="number"
+                      id="initialStock"
+                      name="initialStock"
+                      value={productData.initialStock || ''}
+                      onChange={handleChange}
+                      min="0"
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="0"
+                    />
+                    <p className="mt-1 text-sm text-gray-500">
+                      Optional: Set initial stock quantity for this product
+                    </p>
                   </div>
                 </div>
 

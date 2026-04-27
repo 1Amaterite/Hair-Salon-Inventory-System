@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Transactions from './pages/Transactions';
 import Products from './pages/Products';
 import AddProduct from './pages/AddProduct';
+import RecentTransactions from './pages/RecentTransactions';
 import { UserProvider } from './contexts/UserContext';
 
 // Protected Route Component
@@ -67,7 +68,15 @@ function App() {
                 </AdminRoute>
               } 
             />
-            <Route path="/" element={<Navigate to="/transactions" replace />} />
+            <Route 
+              path="/transactions/recent" 
+              element={
+                <ProtectedRoute>
+                  <RecentTransactions />
+                </ProtectedRoute>
+            } 
+          />
+          <Route path="/" element={<Navigate to="/transactions" replace />} />
           </Routes>
         </div>
       </Router>

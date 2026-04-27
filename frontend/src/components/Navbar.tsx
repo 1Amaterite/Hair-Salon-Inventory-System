@@ -7,6 +7,7 @@ interface NavbarProps {
   showViewProducts?: boolean;
   showNewTransaction?: boolean;
   showAddProduct?: boolean;
+  showRecentTransactions?: boolean;
   onBackClick?: () => void;
   backText?: string;
 }
@@ -16,6 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({
   showViewProducts = false, 
   showNewTransaction = false, 
   showAddProduct = false,
+  showRecentTransactions = false,
   onBackClick,
   backText
 }) => {
@@ -32,6 +34,10 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const handleAddProduct = () => {
     navigate('/products/add');
+  };
+
+  const handleRecentTransactions = () => {
+    navigate('/transactions/recent');
   };
 
   const handleLogout = async () => {
@@ -85,6 +91,16 @@ const Navbar: React.FC<NavbarProps> = ({
                   className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 >
                   Add Product
+                </button>
+              )}
+              
+              {/* Recent Transactions */}
+              {showRecentTransactions && (
+                <button
+                  onClick={handleRecentTransactions}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                >
+                  Recent Transactions
                 </button>
               )}
             </div>

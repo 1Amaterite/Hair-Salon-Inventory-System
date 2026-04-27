@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { productsApi, Product } from '../api/products';
-import Navbar from '../components/Navbar';
-import { useUser } from '../contexts/UserContext';
+import SideNavigation from '../components/SideNavigation';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { user } = useUser();
 
   useEffect(() => {
     fetchProducts();
@@ -31,20 +29,16 @@ const Products: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-lg text-gray-600">Loading products...</div>
-      </div>
+      <SideNavigation title="Products" configType="with-recent">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-gray-600">Loading products...</div>
+        </div>
+      </SideNavigation>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar 
-        title="Products"
-        showAddProduct={true}
-        showNewTransaction={true}
-      />
-
+    <SideNavigation title="Products" configType="with-recent">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           {error && (
@@ -54,77 +48,99 @@ const Products: React.FC = () => {
           )}
 
           {products.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-gray-500 text-lg">No products found</div>
-              <div className="text-gray-400 mt-2">Products will appear here once they are added to the system.</div>
+            <div className="text-center py-8">
+              <div className="text-gray-500">No products found</div>
             </div>
           ) : (
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
-                {products.map((product) => (
-                  <li key={product.id}>
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0">
-                              <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <span className="text-indigo-600 font-medium text-sm">
-                                  {product.name.charAt(0)}
-                                </span>
+            <div className="bg-white shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+                  Inventory Products
+                </h3>
+                
+                <div className="overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Product
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          SKU
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Current Stock
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Reorder Threshold (Low Stock)
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Retail Price
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {products.map((product) => (
+                        <tr key={product.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {product.name}
                               </div>
+                              {product.size && product.variant && (
+                                <div className="text-sm text-gray-500">
+                                  {product.size} - {product.variant}
+                                </div>
+                              )}
                             </div>
-                            <div className="ml-4">
-                              <div className="flex items-center">
-                                <h3 className="text-lg font-medium text-gray-900">{product.name}</h3>
-                                {product.isLowStock && (
-                                  <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                    Low Stock
-                                  </span>
-                                )}
-                              </div>
-                              <div className="mt-1">
-                                <p className="text-sm text-gray-500">
-                                  SKU: {product.sku} | Category: {product.category}
-                                  {product.size && ` | Size: ${product.size}`}
-                                  {product.variant && ` | Variant: ${product.variant}`}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="ml-6 flex items-center space-x-4">
-                          <div className="text-right">
-                            <div className="text-lg font-semibold text-gray-900">
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {product.sku}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {product.category}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              product.currentStock <= product.reorderThreshold 
+                                ? 'bg-red-100 text-red-800' 
+                                : 'bg-green-100 text-green-800'
+                            }`}>
                               {product.currentStock}
-                            </div>
-                            <div className="text-sm text-gray-500">units in stock</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-sm font-medium text-gray-900">
-                              ${product.retailPrice}
-                            </div>
-                            <div className="text-xs text-gray-500">retail</div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="mt-4 flex items-center justify-between">
-                        <div className="flex items-center space-x-6 text-sm text-gray-500">
-                          <span>Wholesale: ${product.wholesaleCost}</span>
-                          <span>Reorder at: {product.reorderThreshold}</span>
-                          <span>Lead time: {product.leadTimeDays} days</span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {product.reorderThreshold}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            ${Number(product.retailPrice).toFixed(2)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              product.isLowStock
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-green-100 text-green-800'
+                            }`}>
+                              {product.isLowStock ? 'Low Stock' : 'In Stock'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </SideNavigation>
   );
 };
 

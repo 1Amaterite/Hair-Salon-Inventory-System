@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { productsApi, CreateProductRequest } from '../api/products';
-import Navbar from '../components/Navbar';
+import SideNavigation from '../components/SideNavigation';
 
 const AddProduct: React.FC = () => {
   const [productData, setProductData] = useState<CreateProductRequest>({
@@ -69,13 +69,7 @@ const AddProduct: React.FC = () => {
 
   
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar 
-        title="Add New Product"
-        backText="Back to Products"
-        onBackClick={() => {/* Handled by Navbar */}}
-      />
-
+    <SideNavigation title="Add New Product" configType="with-recent">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="max-w-2xl mx-auto">
@@ -273,7 +267,7 @@ const AddProduct: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </SideNavigation>
   );
 };
 

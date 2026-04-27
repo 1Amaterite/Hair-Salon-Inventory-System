@@ -28,7 +28,6 @@ export interface CreateProductRequest {
   retailPrice: number;
   reorderThreshold: number;
   leadTimeDays: number;
-  initialStock?: number;
 }
 
 export interface UpdateProductRequest {

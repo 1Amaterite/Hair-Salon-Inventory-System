@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { productsApi, CreateProductRequest } from '../api/products';
 import SideNavigation from '../components/SideNavigation';
+import { Tag, Package, DollarSign, AlertTriangle, Clock, Plus } from 'lucide-react';
 
 const AddProduct: React.FC = () => {
   const [productData, setProductData] = useState<CreateProductRequest>({
@@ -13,7 +14,6 @@ const AddProduct: React.FC = () => {
     retailPrice: 0,
     reorderThreshold: 0,
     leadTimeDays: 0,
-    initialStock: 0,
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -90,7 +90,10 @@ const AddProduct: React.FC = () => {
                   {/* SKU */}
                   <div>
                     <label htmlFor="sku" className="block text-sm font-medium text-gray-700">
-                      SKU *
+                      <div className="flex items-center gap-2">
+                        <Tag className="w-4 h-4" />
+                        SKU *
+                      </div>
                     </label>
                     <input
                       type="text"
@@ -107,7 +110,10 @@ const AddProduct: React.FC = () => {
                   {/* Product Name */}
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                      Product Name *
+                      <div className="flex items-center gap-2">
+                        <Package className="w-4 h-4" />
+                        Product Name *
+                      </div>
                     </label>
                     <input
                       type="text"
@@ -174,7 +180,10 @@ const AddProduct: React.FC = () => {
                   {/* Wholesale Cost */}
                   <div>
                     <label htmlFor="wholesaleCost" className="block text-sm font-medium text-gray-700">
-                      Wholesale Cost ($) *
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="w-4 h-4" />
+                        Wholesale Cost ($) *
+                      </div>
                     </label>
                     <input
                       type="number"
@@ -193,7 +202,10 @@ const AddProduct: React.FC = () => {
                   {/* Retail Price */}
                   <div>
                     <label htmlFor="retailPrice" className="block text-sm font-medium text-gray-700">
-                      Retail Price ($) *
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="w-4 h-4" />
+                        Retail Price ($) *
+                      </div>
                     </label>
                     <input
                       type="number"
@@ -209,7 +221,8 @@ const AddProduct: React.FC = () => {
                     />
                     {productData.retailPrice > 0 && productData.wholesaleCost > 0 && 
                      productData.retailPrice <= productData.wholesaleCost && (
-                      <p className="mt-1 text-sm text-red-500">
+                      <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <AlertTriangle className="w-4 h-4" />
                         Retail price must be greater than wholesale cost
                       </p>
                     )}
@@ -218,7 +231,10 @@ const AddProduct: React.FC = () => {
                   {/* Reorder Threshold */}
                   <div>
                     <label htmlFor="reorderThreshold" className="block text-sm font-medium text-gray-700">
-                      Reorder Threshold *
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4" />
+                        Reorder Threshold *
+                      </div>
                     </label>
                     <input
                       type="number"
@@ -236,7 +252,10 @@ const AddProduct: React.FC = () => {
                   {/* Lead Time Days */}
                   <div>
                     <label htmlFor="leadTimeDays" className="block text-sm font-medium text-gray-700">
-                      Lead Time (days) *
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        Lead Time (days) *
+                      </div>
                     </label>
                     <input
                       type="number"
@@ -252,25 +271,6 @@ const AddProduct: React.FC = () => {
                     />
                   </div>
 
-                  {/* Initial Stock */}
-                  <div>
-                    <label htmlFor="initialStock" className="block text-sm font-medium text-gray-700">
-                      Initial Stock Quantity
-                    </label>
-                    <input
-                      type="number"
-                      id="initialStock"
-                      name="initialStock"
-                      value={productData.initialStock || ''}
-                      onChange={handleChange}
-                      min="0"
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="0"
-                    />
-                    <p className="mt-1 text-sm text-gray-500">
-                      Optional: Set initial stock quantity for this product
-                    </p>
-                  </div>
                 </div>
 
                 <div className="flex justify-center">
@@ -278,9 +278,14 @@ const AddProduct: React.FC = () => {
                     type="submit"
                     disabled={loading || !productData.sku || !productData.name || 
                              productData.retailPrice <= productData.wholesaleCost}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
-                    {loading ? 'Creating...' : 'Create Product'}
+                    {loading ? 'Creating...' : (
+                      <>
+                        <Plus className="w-4 h-4" />
+                        Create Product
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

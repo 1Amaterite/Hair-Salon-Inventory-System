@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+enum TransactionType {
+  INBOUND   // Stock coming in (purchases, returns)
+  OUTBOUND  // Stock going out (sales, transfers)
+  USAGE     // Product used in salon services
+  ADJUSTMENT // Manual stock adjustments
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+}
+
+// Models
+model User {
+  id           String     @id @default(cuid())
+  name         String
+  username     String     @unique
+  passwordHash String     @map("password_hash")
+  role         UserRole
+  isActive     Boolean    @default(true) @map("is_active")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  transactions Transaction[]
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+model Product {
+  id               String    @id @default(cuid())
+  sku              String    @unique
+  name             String
+  category         String
+  size             String?
+  variant          String?   // For shade/tone variations
+  wholesaleCost    Decimal   @map("wholesale_cost") @db.Decimal(10, 2)
+  retailPrice      Decimal   @map("retail_price") @db.Decimal(10, 2)
+  reorderThreshold Int       @map("reorder_threshold")
+  leadTimeDays     Int       @map("lead_time_days")
+  isActive         Boolean   @default(true) @map("is_active")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  transactions Transaction[]
+
+  // Indexes
+  @@index([sku])
+  @@index([category])
+  @@index([isActive])
+  @@map("products")
+}
+
+model Transaction {
+  id        String           @id @default(cuid())
+  productId String           @map("product_id")
+  userId    String           @map("user_id")
+  type      TransactionType
+  quantity  Int              // Positive for inbound, negative for outbound/usage
+  remarks   String?
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  // Relations
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  // Indexes
+  @@index([productId])
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@index([productId, createdAt])
+  @@map("transactions")
+}
+
+model AuditLog {
+  id         String       @id @default(cuid())
+  userId     String?      @map("user_id")
+  action     AuditAction
+  entityType String       @map("entity_type")
+  entityId   String       @map("entity_id")
+  changes    Json?        // Store old/new values as JSON
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  // Indexes
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

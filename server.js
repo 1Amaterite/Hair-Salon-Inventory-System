@@ -14,9 +14,67 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Import Routes
+const authRoutes = require('./routes/authRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
+const productRoutes = require('./routes/productRoutes');
+const exampleRoutes = require('./routes/exampleRoutes');
+
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/example', exampleRoutes);
+
 // Basic Route for Testing
 app.get('/', (req, res) => {
-    res.render('login'); // Will look for views/login.ejs
+    res.json({ 
+        message: 'Hair Salon Inventory System API',
+        version: '1.0.0',
+        authentication: 'JWT-based with role-based access control',
+        endpoints: {
+            auth: {
+                login: 'POST /api/auth/login',
+                profile: 'GET /api/auth/profile',
+                logout: 'POST /api/auth/logout',
+                verify: 'GET /api/auth/verify'
+            },
+            products: {
+                getAll: 'GET /api/products',
+                getById: 'GET /api/products/:id',
+                create: 'POST /api/products (ADMIN only)',
+                update: 'PUT /api/products/:id (ADMIN only)',
+                delete: 'DELETE /api/products/:id (ADMIN only)',
+                restore: 'POST /api/products/:id/restore (ADMIN only)',
+                categories: 'GET /api/products/categories',
+                statistics: 'GET /api/products/statistics'
+            },
+            transactions: '/api/transactions',
+            examples: {
+                public: 'GET /api/example/public',
+                protected: 'GET /api/example/protected',
+                adminOnly: 'GET /api/example/admin-only',
+                staffOrAdmin: 'GET /api/example/staff-or-admin',
+                roleSpecific: 'GET /api/example/role-specific',
+                adjustment: 'POST /api/example/adjustment'
+            },
+            health: '/api/health'
+        },
+        usage: {
+            login: 'Use POST /api/auth/login with username/password to get JWT token',
+            authentication: 'Include "Authorization: Bearer <token>" header for protected routes',
+            roles: 'ADMIN and STAFF roles with different permission levels'
+        }
+    });
+});
+
+// Health Check Endpoint
+app.get('/api/health', (req, res) => {
+    res.json({ 
+        status: 'OK', 
+        timestamp: new Date().toISOString(),
+        database: 'Connected'
+    });
 });
 
 // Start Server

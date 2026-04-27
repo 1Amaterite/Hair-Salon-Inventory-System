@@ -60,6 +60,7 @@ const Transactions: React.FC = () => {
         setQuantity('');
         setRemarks('');
         setTransactionType('INBOUND');
+        handleNewTransaction();
       } else {
         setMessage({ type: 'error', text: response.message });
       }
@@ -68,6 +69,14 @@ const Transactions: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleNewTransaction = () => {
+    navigate('/transactions');
+  };
+
+  const handleViewProducts = () => {
+    navigate('/products');
   };
 
   const handleLogout = () => {
@@ -84,12 +93,20 @@ const Transactions: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <h1 className="text-2xl font-bold text-gray-900">Create Transaction</h1>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              Logout
-            </button>
+            <div className="flex space-x-3">
+              <button
+                onClick={handleViewProducts}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                View Products
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>

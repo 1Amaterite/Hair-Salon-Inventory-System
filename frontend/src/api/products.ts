@@ -18,6 +18,30 @@ export interface Product {
   updatedAt: string;
 }
 
+export interface CreateProductRequest {
+  sku: string;
+  name: string;
+  category: string;
+  size?: string;
+  variant?: string;
+  wholesaleCost: number;
+  retailPrice: number;
+  reorderThreshold: number;
+  leadTimeDays: number;
+}
+
+export interface UpdateProductRequest {
+  sku?: string;
+  name?: string;
+  category?: string;
+  size?: string;
+  variant?: string;
+  wholesaleCost?: number;
+  retailPrice?: number;
+  reorderThreshold?: number;
+  leadTimeDays?: number;
+}
+
 export interface ProductsResponse {
   success: boolean;
   message: string;
@@ -33,6 +57,11 @@ export interface ProductsResponse {
 }
 
 export const productsApi = {
+  createProduct: async (productData: CreateProductRequest): Promise<{ success: boolean; message: string; data: Product }> => {
+    const response = await api.post('/products', productData);
+    return response.data;
+  },
+
   getProducts: async (params?: {
     page?: number;
     limit?: number;

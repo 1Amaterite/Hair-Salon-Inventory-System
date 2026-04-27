@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Transactions from './pages/Transactions';
 import Products from './pages/Products';
+import AddProduct from './pages/AddProduct';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -32,6 +33,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Products />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/products/add" 
+            element={
+              <ProtectedRoute>
+                <AddProduct />
               </ProtectedRoute>
             } 
           />

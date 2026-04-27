@@ -37,6 +37,10 @@ const Products: React.FC = () => {
     navigate('/transactions');
   };
 
+  const handleAddProduct = () => {
+    navigate('/products/add');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -52,6 +56,12 @@ const Products: React.FC = () => {
           <div className="flex justify-between items-center py-4">
             <h1 className="text-2xl font-bold text-gray-900">Products</h1>
             <div className="flex space-x-3">
+              <button
+                onClick={handleAddProduct}
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              >
+                Add Product
+              </button>
               <button
                 onClick={handleNewTransaction}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

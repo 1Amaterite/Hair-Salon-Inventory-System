@@ -26,16 +26,6 @@ if [ ! -f "package.json" ] || [ ! -d "frontend" ]; then
     exit 1
 fi
 
-echo "📦 Installing dependencies..."
-
-# Install backend dependencies
-echo "📥 Installing backend dependencies..."
-npm install
-
-# Install frontend dependencies
-echo "📥 Installing frontend dependencies..."
-cd frontend && npm install && cd ..
-
 echo "🔥 Starting servers..."
 
 # Start backend server

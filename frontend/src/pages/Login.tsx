@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi, LoginCredentials } from '../api/auth';
+import { useUser } from '../contexts/UserContext';
 
 const Login: React.FC = () => {
   const [credentials, setCredentials] = useState<LoginCredentials>({
@@ -10,6 +11,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setUserFromLogin } = useUser();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ const Login: React.FC = () => {
       
       if (response.success) {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        setUserFromLogin(response.data.user);
         navigate('/transactions');
       } else {
         setError(response.message);
@@ -45,7 +47,7 @@ const Login: React.FC = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Inventory System
+            Alpha 8 Inventory System
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Sign in to your account

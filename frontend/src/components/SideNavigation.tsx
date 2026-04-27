@@ -76,9 +76,16 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg flex flex-col">
-        {/* Logo/Title */}
+        {/* Logo/Brand */}
         <div className="flex items-center justify-center h-16 px-4 border-b border-gray-200">
-          <h1 className="text-xl font-bold text-gray-900">Alpha 8</h1>
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/logo.png" 
+              alt="Alpha 8 Logo" 
+              className="h-12 w-12 rounded-lg object-contain"
+            />
+            <h1 className="text-xl font-bold text-gray-900">Alpha 8</h1>
+          </div>
         </div>
 
         {/* Navigation Items */}

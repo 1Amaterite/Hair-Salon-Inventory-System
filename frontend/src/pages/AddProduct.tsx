@@ -18,6 +18,7 @@ const AddProduct: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+
   const categories = [
     'Hair Care',
     'Coloring', 

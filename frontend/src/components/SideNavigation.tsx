@@ -69,7 +69,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
     },
     {
       key: 'reports',
-      label: 'Reports',
+      label: 'Admin Dashboard',
       onClick: handleReports,
       show: config.showReports && user?.role === 'ADMIN',
       active: isActiveRoute('/admin/reports')

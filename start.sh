@@ -37,7 +37,7 @@ BACKEND_PID=$!
 sleep 3
 
 # Start frontend server
-echo "🌐 Starting frontend server on http://localhost:5173"
+echo "🌐 Starting frontend server on http://localhost:5176"
 cd frontend && npm run dev &
 FRONTEND_PID=$!
 
@@ -47,7 +47,7 @@ sleep 3
 echo ""
 echo "✅ Both servers are running!"
 echo ""
-echo "📱 Frontend: http://localhost:5173"
+echo "📱 Frontend: http://localhost:5176"
 echo "🔧 Backend:  http://localhost:3000"
 echo ""
 echo "👤 Test Credentials:"

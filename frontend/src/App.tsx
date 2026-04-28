@@ -6,6 +6,7 @@ import Products from './pages/Products';
 import AddProduct from './pages/AddProduct';
 import RecentTransactions from './pages/RecentTransactions';
 import Reports from './pages/Reports';
+import DeliveryDestinations from './pages/DeliveryDestinations';
 import { UserProvider } from './contexts/UserContext';
 
 // Protected Route Component
@@ -82,6 +83,14 @@ function App() {
             element={
               <AdminRoute>
                 <Reports />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/destinations"
+            element={
+              <AdminRoute>
+                <DeliveryDestinations />
               </AdminRoute>
             }
           />

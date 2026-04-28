@@ -18,11 +18,13 @@ app.set('views', path.join(__dirname, 'views'));
 const authRoutes = require('./routes/authRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const productRoutes = require('./routes/productRoutes');
+const destinationRoutes = require('./routes/destinationRoutes');
 
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/destinations', destinationRoutes);
 
 // Basic Route for Testing
 app.get('/', (req, res) => {

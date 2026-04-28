@@ -31,6 +31,16 @@ enum AuditAction {
   LOGOUT
 }
 
+enum LocationType {
+  PERMANENT
+  TEMPORARY
+}
+
+enum DestinationStatus {
+  ACTIVE
+  INACTIVE
+}
+
 // Models
 model User {
   id           String     @id @default(cuid())
@@ -94,6 +104,25 @@ model Transaction {
   @@index([createdAt])
   @@index([productId, createdAt])
   @@map("transactions")
+}
+
+model DeliveryDestination {
+  id            String            @id @default(cuid())
+  name          String
+  fullAddress   String            @map("full_address")
+  contactPerson String?           @map("contact_person")
+  contactNumber String?           @map("contact_number")
+  locationType  LocationType      @map("location_type")
+  status        DestinationStatus @default(ACTIVE)
+  isActive      Boolean           @default(true) @map("is_active")
+  createdAt     DateTime          @default(now()) @map("created_at")
+  updatedAt     DateTime          @updatedAt @map("updated_at")
+
+  // Indexes
+  @@index([locationType])
+  @@index([status])
+  @@index([isActive])
+  @@map("delivery_destinations")
 }
 
 model AuditLog {

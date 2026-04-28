@@ -74,127 +74,183 @@ const Transactions: React.FC = () => {
 
   return (
     <SideNavigation title="Create Transaction" configType="with-recent">
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="max-w-md mx-auto">
-            <div className="bg-white shadow rounded-lg p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-6">New Transaction</h2>
-              
-              {message && (
-                <div className={`mb-4 p-3 rounded ${
-                  message.type === 'success' 
-                    ? 'bg-green-100 border border-green-400 text-green-700' 
-                    : 'bg-red-100 border border-red-400 text-red-700'
-                }`}>
-                  {message.text}
-                </div>
-              )}
+      <div className="max-w-2xl mx-auto">
+        <div className="space-y-xl">
+          {/* Header Section */}
+          <div className="text-center">
+            <div className="flex justify-center mb-lg">
+              <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center">
+                <span className="material-symbols-outlined text-3xl text-on-primary">add_shopping_cart</span>
+              </div>
+            </div>
+            <h2 className="font-h1 text-h1 text-on-background mb-md">
+              New Transaction
+            </h2>
+            <p className="font-body-md text-body-md text-on-surface-variant">
+              Record inventory movement for your salon products
+            </p>
+          </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Product Selection */}
-                <div>
-                  <label htmlFor="product" className="block text-sm font-medium text-gray-700">
-                    Product *
-                  </label>
-                  <select
-                    id="product"
-                    name="product"
-                    value={selectedProduct}
-                    onChange={(e) => setSelectedProduct(e.target.value)}
-                    required
-                    disabled={fetchingProducts}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
-                  >
-                    <option value="">Select a product</option>
-                    {products.map((product) => (
-                      <option key={product.id} value={product.id}>
-                        {product.name} ({product.sku}) - Stock: {product.currentStock}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+          {/* Transaction Form */}
+          <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-xl">
+            {message && (
+              <div className={`mb-lg p-md rounded-lg border font-body-md flex items-center gap-sm ${
+                message.type === 'success' 
+                  ? 'bg-primary-fixed text-on-primary-fixed border-primary-fixed-dim' 
+                  : 'bg-error-container text-on-error-container border-error'
+              }`}>
+                <span className="material-symbols-outlined">
+                  {message.type === 'success' ? 'check_circle' : 'error'}
+                </span>
+                {message.text}
+              </div>
+            )}
 
-                {/* Transaction Type */}
-                <div>
-                  <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                    Transaction Type *
-                  </label>
-                  <select
-                    id="type"
-                    name="type"
-                    value={transactionType}
-                    onChange={(e) => setTransactionType(e.target.value as 'INBOUND' | 'OUTBOUND' | 'USAGE')}
-                    disabled={fetchingProducts}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
-                  >
-                    <option value="INBOUND">Inbound (Stock In)</option>
-                    <option value="OUTBOUND">Outbound (Sales)</option>
-                    <option value="USAGE">Usage (Services)</option>
-                  </select>
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-lg">
+              {/* Product Selection */}
+              <div>
+                <label htmlFor="product" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
+                  Product *
+                </label>
+                <select
+                  id="product"
+                  name="product"
+                  value={selectedProduct}
+                  onChange={(e) => setSelectedProduct(e.target.value)}
+                  required
+                  disabled={fetchingProducts}
+                  className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <option value="">Select a product</option>
+                  {products.map((product) => (
+                    <option key={product.id} value={product.id}>
+                      {product.name} ({product.sku}) - Stock: {product.currentStock}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-                {/* Quantity */}
-                <div>
-                  <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
-                    Quantity *
-                  </label>
-                  <input
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    required
-                    min="1"
-                    disabled={fetchingProducts}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    placeholder="Enter quantity"
-                  />
+              {/* Transaction Type */}
+              <div>
+                <label htmlFor="type" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
+                  Transaction Type *
+                </label>
+                <div className="grid grid-cols-3 gap-sm">
+                  {[
+                    { value: 'INBOUND', label: 'Stock In', icon: 'inventory_2', color: 'primary' },
+                    { value: 'OUTBOUND', label: 'Sales', icon: 'sell', color: 'tertiary' },
+                    { value: 'USAGE', label: 'Services', icon: 'content_cut', color: 'secondary' }
+                  ].map((type) => (
+                    <button
+                      key={type.value}
+                      type="button"
+                      onClick={() => setTransactionType(type.value as any)}
+                      disabled={fetchingProducts}
+                      className={`p-md rounded-lg border transition-all duration-200 ${
+                        transactionType === type.value
+                          ? `bg-${type.color} text-on-${type.color} border-${type.color}`
+                          : 'bg-surface border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary'
+                      } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    >
+                      <span className="material-symbols-outlined block mb-xs">{type.icon}</span>
+                      <span className="font-body-sm text-body-sm">{type.label}</span>
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* Remarks */}
-                <div>
-                  <label htmlFor="remarks" className="block text-sm font-medium text-gray-700">
-                    Remarks (optional)
-                  </label>
-                  <textarea
-                    id="remarks"
-                    name="remarks"
-                    value={remarks}
-                    onChange={(e) => setRemarks(e.target.value)}
-                    rows={3}
-                    disabled={fetchingProducts}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    placeholder="Add any notes about this transaction"
-                  />
-                </div>
+              {/* Quantity */}
+              <div>
+                <label htmlFor="quantity" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
+                  Quantity *
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  required
+                  min="1"
+                  disabled={fetchingProducts}
+                  className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Enter quantity"
+                />
+              </div>
 
-                {/* Stock Preview */}
-                {selectedProductData && (
-                  <div className="bg-gray-50 p-4 rounded-md">
-                    <div className="text-sm text-gray-600">
-                      <p>Current Stock: <span className="font-medium">{selectedProductData.currentStock}</span></p>
-                      <p>After Transaction: <span className="font-medium">
+              {/* Remarks */}
+              <div>
+                <label htmlFor="remarks" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
+                  Remarks (optional)
+                </label>
+                <textarea
+                  id="remarks"
+                  name="remarks"
+                  value={remarks}
+                  onChange={(e) => setRemarks(e.target.value)}
+                  rows={3}
+                  disabled={fetchingProducts}
+                  className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md disabled:opacity-50 disabled:cursor-not-allowed resize-none"
+                  placeholder="Add any notes about this transaction"
+                />
+              </div>
+
+              {/* Stock Preview */}
+              {selectedProductData && (
+                <div className="bg-surface-container-low p-lg rounded-lg border border-outline-variant">
+                  <h3 className="font-h3 text-h3 text-on-background mb-md flex items-center gap-sm">
+                    <span className="material-symbols-outlined">analytics</span>
+                    Stock Preview
+                  </h3>
+                  <div className="space-y-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="font-body-md text-body-md text-on-surface-variant">Current Stock:</span>
+                      <span className="font-body-lg text-body-lg text-on-background font-medium">{selectedProductData.currentStock}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-body-md text-body-md text-on-surface-variant">After Transaction:</span>
+                      <span className={`font-body-lg text-body-lg font-medium ${
+                        transactionType === 'INBOUND' 
+                          ? 'text-primary' 
+                          : selectedProductData.currentStock - parseInt(quantity || '0') < 0 
+                            ? 'text-error' 
+                            : 'text-on-background'
+                      }`}>
                         {transactionType === 'INBOUND' 
                           ? selectedProductData.currentStock + parseInt(quantity || '0')
                           : selectedProductData.currentStock - parseInt(quantity || '0')
                         }
-                      </span></p>
+                      </span>
                     </div>
                   </div>
-                )}
-
-                <div className="flex justify-center">
-                  <button
-                    type="submit"
-                    disabled={loading || fetchingProducts || !selectedProduct || !quantity}
-                    className="flex-1 max-w-md bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {loading ? 'Creating...' : fetchingProducts ? 'Loading Products...' : 'Create Transaction'}
-                  </button>
                 </div>
-              </form>
-            </div>
+              )}
+
+              <div className="pt-md">
+                <button
+                  type="submit"
+                  disabled={loading || fetchingProducts || !selectedProduct || !quantity}
+                  className="w-full py-md font-body-md bg-primary text-on-primary rounded-lg hover:bg-primary-container hover:text-on-primary-container focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-sm"
+                >
+                  {loading ? (
+                    <>
+                      <span className="material-symbols-outlined animate-spin">refresh</span>
+                      Creating Transaction...
+                    </>
+                  ) : fetchingProducts ? (
+                    <>
+                      <span className="material-symbols-outlined animate-spin">refresh</span>
+                      Loading Products...
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined">check_circle</span>
+                      Create Transaction
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

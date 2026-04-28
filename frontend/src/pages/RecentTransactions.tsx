@@ -47,15 +47,15 @@ const RecentTransactions: React.FC = () => {
   const getTransactionTypeColor = (type: string) => {
     switch (type) {
       case 'INBOUND':
-        return 'text-green-600 bg-green-100';
+        return 'bg-primary-fixed text-on-primary-fixed';
       case 'OUTBOUND':
-        return 'text-red-600 bg-red-100';
+        return 'bg-error-container text-on-error-container';
       case 'USAGE':
-        return 'text-blue-600 bg-blue-100';
+        return 'bg-tertiary-fixed text-on-tertiary-fixed';
       case 'ADJUSTMENT':
-        return 'text-yellow-600 bg-yellow-100';
+        return 'bg-secondary-fixed text-on-secondary-fixed';
       default:
-        return 'text-gray-600 bg-gray-100';
+        return 'bg-surface-container-highest text-on-surface-variant';
     }
   };
 
@@ -73,7 +73,7 @@ const RecentTransactions: React.FC = () => {
     return (
       <SideNavigation title="Recent Transactions" configType="with-recent">
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-gray-600">Loading transactions...</div>
+          <div className="font-h3 text-h3 text-on-surface-variant">Loading transactions...</div>
         </div>
       </SideNavigation>
     );
@@ -81,85 +81,105 @@ const RecentTransactions: React.FC = () => {
 
   return (
     <SideNavigation title="Recent Transactions" configType="with-recent">
-      
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
+      <div className="max-w-6xl mx-auto">
+        <div className="space-y-xl">
+          {/* Header Section */}
+          <div className="text-center">
+            <div className="flex justify-center mb-lg">
+              <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center">
+                <span className="material-symbols-outlined text-3xl text-on-primary">history</span>
+              </div>
+            </div>
+            <h2 className="font-h1 text-h1 text-on-background mb-md">
+              Recent Transactions
+            </h2>
+            <p className="font-body-md text-body-md text-on-surface-variant">
+              View your recent inventory movements and adjustments
+            </p>
+          </div>
+
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div className="bg-error-container text-on-error-container px-lg py-md rounded-lg border border-error font-body-md mb-lg">
               {error}
             </div>
           )}
 
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+          {/* Transactions Table */}
+          <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+            <div className="px-lg py-xl">
+              <h3 className="font-h2 text-h2 text-on-background mb-lg">
                 Transaction History
               </h3>
               
               {transactions.length === 0 ? (
-                <div className="text-center py-8">
-                  <div className="text-gray-500">No transactions found</div>
+                <div className="text-center py-xl">
+                  <div className="text-on-surface-variant font-body-md">
+                    No transactions found
+                  </div>
                 </div>
               ) : (
                 <div className="overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-outline-variant">
+                    <thead className="bg-surface-container-low">
                       <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Date & Time
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Product
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">inventory_2</span>
+                            Product
+                          </div>
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Type
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Quantity
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           User
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Remarks
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {transactions.map((transaction) => (
-                        <tr key={transaction.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {formatDate(transaction.createdAt)}
+                    <tbody className="bg-surface-container-lowest divide-y divide-outline-variant">
+                      {transactions.map((Transaction) => (
+                        <tr key={Transaction.id} className="hover:bg-surface-container-low">
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
+                            {formatDate(Transaction.createdAt)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-lg py-md whitespace-nowrap">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">
-                                {transaction.product.name}
+                              <div className="font-body-md text-body-md text-on-background">
+                                {Transaction.product.name}
                               </div>
-                              <div className="text-sm text-gray-500">
-                                {transaction.product.sku}
+                              <div className="font-body-sm text-body-sm text-on-surface-variant">
+                                {Transaction.product.sku}
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getTransactionTypeColor(transaction.type)}`}>
-                              {transaction.type}
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <span className={`inline-flex px-md py-sm font-label-md font-label-md rounded-full ${getTransactionTypeColor(Transaction.type)}`}>
+                              {Transaction.type}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
                             <span className={`font-medium ${
-                              transaction.type === 'INBOUND' ? 'text-green-600' : 
-                              transaction.type === 'OUTBOUND' || transaction.type === 'USAGE' ? 'text-red-600' : 
-                              'text-yellow-600'
+                              Transaction.type === 'INBOUND' ? 'text-primary' : 
+                              Transaction.type === 'OUTBOUND' || Transaction.type === 'USAGE' ? 'text-error' : 
+                              'text-tertiary'
                             }`}>
-                              {transaction.type === 'INBOUND' ? '+' : '-'}{Math.abs(transaction.quantity)}
+                              {Transaction.type === 'INBOUND' ? '+' : '-'}{Math.abs(Transaction.quantity)}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {transaction.user.name}
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
+                            {Transaction.user.name}
                           </td>
-                          <td className="px-6 py-4 text-sm text-gray-500">
-                            {transaction.remarks || '-'}
+                          <td className="px-lg py-md whitespace-nowrap font-body-sm text-body-sm text-on-surface-variant">
+                            {Transaction.remarks || '-'}
                           </td>
                         </tr>
                       ))}

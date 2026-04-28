@@ -43,25 +43,32 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Alpha 8 Inventory System
+    <div className="min-h-screen flex items-center justify-center bg-background py-xl px-lg">
+      <div className="max-w-md w-full space-y-xl">
+        <div className="text-center">
+          <div className="flex justify-center mb-lg">
+            <div className="w-20 h-20 bg-primary rounded-xl flex items-center justify-center">
+              <span className="material-symbols-outlined text-4xl text-on-primary">spa</span>
+            </div>
+          </div>
+          <h2 className="font-h1 text-h1 text-on-background mb-md">
+            Salon Inventory System
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Sign in to your account
+          <p className="font-body-md text-body-md text-on-surface-variant">
+            Sign in to manage your salon inventory
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        
+        <form className="space-y-lg" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <div className="bg-error-container text-on-error-container px-lg py-md rounded-lg border border-error font-body-md">
               {error}
             </div>
           )}
-          <div className="rounded-md shadow-sm -space-y-px">
+          
+          <div className="space-y-md">
             <div>
-              <label htmlFor="username" className="sr-only">
+              <label htmlFor="username" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
                 Username
               </label>
               <input
@@ -69,14 +76,14 @@ const Login: React.FC = () => {
                 name="username"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Username"
+                className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md"
+                placeholder="Enter your username"
                 value={credentials.username}
                 onChange={handleChange}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
                 Password
               </label>
               <input
@@ -84,8 +91,8 @@ const Login: React.FC = () => {
                 name="password"
                 type="password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md"
+                placeholder="Enter your password"
                 value={credentials.password}
                 onChange={handleChange}
               />
@@ -96,9 +103,19 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-md font-body-md bg-primary text-on-primary rounded-lg hover:bg-primary-container hover:text-on-primary-container focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-sm"
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? (
+                <>
+                  <span className="material-symbols-outlined animate-spin">refresh</span>
+                  Signing in...
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined">login</span>
+                  Sign in
+                </>
+              )}
             </button>
           </div>
         </form>

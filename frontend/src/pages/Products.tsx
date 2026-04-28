@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { productsApi, Product } from '../api/products';
 import SideNavigation from '../components/SideNavigation';
-import { Package, AlertTriangle, CheckCircle, Search, ArrowUpDown, Box, DollarSign, Tag, XCircle } from 'lucide-react';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -119,62 +118,77 @@ const Products: React.FC = () => {
           <div className="px-4 py-6 sm:px-0">
             <div className="bg-white shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="h-6 bg-gray-200 rounded w-48 animate-pulse"></div>
-                  <div className="h-10 bg-gray-200 rounded w-64 animate-pulse"></div>
+                <div className="flex items-center justify-between mb-lg">
+                  <div className="h-6 bg-surface-container-highest rounded w-48 animate-pulse"></div>
+                  <div className="h-10 bg-surface-container-highest rounded w-64 animate-pulse"></div>
                 </div>
                 
                 <div className="overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-outline-variant">
+                    <thead className="bg-surface-container-low">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Product
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">inventory_2</span>
+                            Product
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          SKU
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">tag</span>
+                            SKU
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Category
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Current Stock
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">inventory</span>
+                            Current Stock
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Reorder Threshold (Low Stock)
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">warning</span>
+                            Reorder Threshold
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Retail Price
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">payments</span>
+                            Retail Price
+                          </div>
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Status
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-surface-container-lowest divide-y divide-outline-variant">
                       {[...Array(6)].map((_, index) => (
                         <tr key={index} className="animate-pulse">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
-                            <div className="h-3 bg-gray-200 rounded w-20"></div>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-4 bg-surface-container-highest rounded w-32 mb-2"></div>
+                            <div className="h-3 bg-surface-container-highest rounded w-20"></div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-4 bg-gray-200 rounded w-16"></div>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-4 bg-surface-container-highest rounded w-16"></div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-4 bg-gray-200 rounded w-20"></div>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-4 bg-surface-container-highest rounded w-20"></div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-6 bg-gray-200 rounded w-12"></div>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-6 bg-surface-container-highest rounded w-12"></div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-4 bg-gray-200 rounded w-8"></div>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-4 bg-surface-container-highest rounded w-8"></div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-4 bg-gray-200 rounded w-16"></div>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-4 bg-surface-container-highest rounded w-16"></div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-6 bg-gray-200 rounded w-20"></div>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-6 bg-surface-container-highest rounded w-20"></div>
                           </td>
                         </tr>
                       ))}
@@ -194,30 +208,30 @@ const Products: React.FC = () => {
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div className="bg-error-container text-on-error-container px-lg py-md rounded-lg border border-error font-body-md mb-lg">
               {error}
             </div>
           )}
 
           {products.length === 0 ? (
-            <div className="text-center py-8">
-              <div className="text-gray-500">
+            <div className="text-center py-xl">
+              <div className="text-on-surface-variant font-body-md">
                 {searchQuery ? `No products found for "${searchQuery}"` : 'No products found'}
               </div>
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="mt-2 text-indigo-600 hover:text-indigo-800 text-sm"
+                  className="mt-md text-primary hover:text-primary-container font-body-sm"
                 >
                   Clear search
                 </button>
               )}
             </div>
           ) : (
-            <div className="bg-white shadow rounded-lg">
-              <div className="px-4 py-5 sm:p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+              <div className="px-lg py-xl">
+                <div className="flex items-center justify-between mb-lg">
+                  <h3 className="font-h2 text-h2 text-on-background">
                     Inventory Products
                   </h3>
                   <div className="flex items-center space-x-3">
@@ -229,7 +243,7 @@ const Products: React.FC = () => {
                           setSortBy(newSortBy);
                           setSortOrder(newSortOrder as 'asc' | 'desc');
                         }}
-                        className="block w-48 pl-10 pr-8 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-48 pl-10 pr-8 py-2 border border-outline-variant rounded-md leading-5 bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary font-body-sm"
                       >
                         <option value="name-asc">Name (A-Z)</option>
                         <option value="name-desc">Name (Z-A)</option>
@@ -243,7 +257,7 @@ const Products: React.FC = () => {
                         <option value="retailPrice-desc">Price (High to Low)</option>
                       </select>
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <ArrowUpDown className="h-4 w-4 text-gray-400" />
+                        <span className="material-symbols-outlined text-sm text-on-surface-variant">swap_vert</span>
                       </div>
                     </div>
                     <div className="relative">
@@ -255,115 +269,115 @@ const Products: React.FC = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onFocus={() => setIsSearchFocused(true)}
                         onBlur={() => setIsSearchFocused(false)}
-                        className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-64 pl-10 pr-3 py-2 border border-outline-variant rounded-md leading-5 bg-surface-container-lowest placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary font-body-sm"
                       />
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Search className="h-4 w-4 text-gray-400" />
+                        <span className="material-symbols-outlined text-sm text-on-surface-variant">search</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 <div className="overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-outline-variant">
+                    <thead className="bg-surface-container-low">
                       <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           <div className="flex items-center gap-2">
-                            <Package className="w-4 h-4" />
+                            <span className="material-symbols-outlined text-sm">inventory_2</span>
                             Product
                           </div>
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           <div className="flex items-center gap-2">
-                            <Tag className="w-4 h-4" />
+                            <span className="material-symbols-outlined text-sm">tag</span>
                             SKU
                           </div>
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Category
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           <div className="flex items-center gap-2">
-                            <Box className="w-4 h-4" />
+                            <span className="material-symbols-outlined text-sm">inventory</span>
                             Current Stock
                           </div>
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           <div className="flex items-center gap-2">
-                            <AlertTriangle className="w-4 h-4" />
+                            <span className="material-symbols-outlined text-sm">warning</span>
                             Reorder Threshold
                           </div>
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           <div className="flex items-center gap-2">
-                            <DollarSign className="w-4 h-4" />
+                            <span className="material-symbols-outlined text-sm">payments</span>
                             Retail Price
                           </div>
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Status
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-surface-container-lowest divide-y divide-outline-variant">
                       {products.map((product) => (
-                        <tr key={product.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
+                        <tr key={product.id} className="hover:bg-surface-container-low">
+                          <td className="px-lg py-md whitespace-nowrap">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">
+                              <div className="font-body-md text-body-md text-on-background">
                                 {product.name}
                               </div>
                               {product.size && product.variant && (
-                                <div className="text-sm text-gray-500">
+                                <div className="font-body-sm text-body-sm text-on-surface-variant">
                                   {product.size} - {product.variant}
                                 </div>
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
                             {product.sku}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
                             {product.category}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex items-center gap-1 px-2 py-1 text-sm font-semibold rounded-full ${
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <span className={`inline-flex items-center gap-1 px-md py-sm font-body-sm font-semibold rounded-full ${
                               product.currentStock <= product.reorderThreshold 
-                                ? 'bg-red-100 text-red-800' 
-                                : 'bg-green-100 text-green-800'
+                                ? 'bg-error-container text-on-error-container' 
+                                : 'bg-primary-fixed text-on-primary-fixed'
                             }`}>
-                              <Box className="w-3 h-3" />
+                              <span className="material-symbols-outlined text-sm">inventory</span>
                               {product.currentStock}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
                             {product.reorderThreshold}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
                             ₱{Number(product.retailPrice).toFixed(2)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <span className={`inline-flex items-center gap-1 px-md py-sm font-label-md font-label-md rounded-full ${
                               product.currentStock === 0
-                                ? 'bg-red-100 text-red-800'
+                                ? 'bg-error-container text-on-error-container'
                                 : product.isLowStock
-                                ? 'bg-yellow-100 text-yellow-800'
-                                : 'bg-green-100 text-green-800'
+                                ? 'bg-tertiary-fixed text-on-tertiary-fixed'
+                                : 'bg-primary-fixed text-on-primary-fixed'
                             }`}>
                               {product.currentStock === 0 ? (
                                 <>
-                                  <XCircle className="w-3 h-3" />
+                                  <span className="material-symbols-outlined text-sm">cancel</span>
                                   Out of Stock
                                 </>
                               ) : product.isLowStock ? (
                                 <>
-                                  <AlertTriangle className="w-3 h-3" />
+                                  <span className="material-symbols-outlined text-sm">warning</span>
                                   Low Stock
                                 </>
                               ) : (
                                 <>
-                                  <CheckCircle className="w-3 h-3" />
+                                  <span className="material-symbols-outlined text-sm">check_circle</span>
                                   In Stock
                                 </>
                               )}

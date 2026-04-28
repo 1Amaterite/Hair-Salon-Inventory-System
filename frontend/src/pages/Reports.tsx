@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { productsApi, Product } from '../api/products';
 import { transactionsApi, Transaction } from '../api/transactions';
 import SideNavigation from '../components/SideNavigation';
-import { AlertTriangle, CalendarClock, DollarSign, Package, ShoppingCart, TrendingDown, TrendingUp, Truck } from 'lucide-react';
 
 type CheckFrequency = 'MONTHLY' | 'QUARTERLY';
 
@@ -252,296 +251,326 @@ const Reports: React.FC = () => {
   const getTypeBadge = (type: Transaction['type']) => {
     switch (type) {
       case 'INBOUND':
-        return 'text-green-700 bg-green-100';
+        return 'bg-primary-fixed text-on-primary-fixed';
       case 'OUTBOUND':
-        return 'text-red-700 bg-red-100';
+        return 'bg-error-container text-on-error-container';
       case 'USAGE':
-        return 'text-blue-700 bg-blue-100';
+        return 'bg-tertiary-fixed text-on-tertiary-fixed';
       case 'ADJUSTMENT':
-        return 'text-yellow-700 bg-yellow-100';
+        return 'bg-secondary-fixed text-on-secondary-fixed';
       default:
-        return 'text-gray-700 bg-gray-100';
+        return 'bg-surface-container-highest text-on-surface-variant';
     }
   };
 
   return (
     <SideNavigation title="Admin Dashboard" configType="with-recent">
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0 space-y-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="space-y-xl">
+          {/* Header Section */}
+          <div className="text-center">
+            <div className="flex justify-center mb-lg">
+              <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center">
+                <span className="material-symbols-outlined text-3xl text-on-primary">dashboard</span>
+              </div>
+            </div>
+            <h2 className="font-h1 text-h1 text-on-background mb-md">
+              Admin Dashboard
+            </h2>
+            <p className="font-body-md text-body-md text-on-surface-variant">
+              Overview of your salon inventory and business metrics
+            </p>
+          </div>
+
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <div className="bg-error-container text-on-error-container px-lg py-md rounded-lg border border-error font-body-md mb-lg">
               {error}
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="bg-white shadow rounded-lg p-5">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500">Total inventory value (cost)</div>
-                <DollarSign className="w-5 h-5 text-gray-400" />
+          {/* Metrics Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-xl">
+              <div className="flex items-center justify-between mb-md">
+                <div className="font-body-md text-body-md text-on-surface-variant">Total inventory value (cost)</div>
+                <span className="material-symbols-outlined text-sm">payments</span>
               </div>
-              <div className="mt-2 text-2xl font-semibold text-gray-900">{loading ? '—' : peso(totals.totalInventoryValue)}</div>
-              <div className="mt-1 text-xs text-gray-500">{loading ? '' : `${niceInt(totals.totalProducts)} active products`}</div>
+              <div className="font-h2 text-h2 text-on-background">{loading ? '—' : peso(totals.totalInventoryValue)}</div>
+              <div className="font-body-sm text-body-sm text-on-surface-variant">{loading ? '' : `${niceInt(totals.totalProducts)} active products`}</div>
             </div>
 
-            <div className="bg-white shadow rounded-lg p-5">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500">Total potential revenue</div>
-                <ShoppingCart className="w-5 h-5 text-gray-400" />
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-xl">
+              <div className="flex items-center justify-between mb-md">
+                <div className="font-body-md text-body-md text-on-surface-variant">Total potential revenue</div>
+                <span className="material-symbols-outlined text-sm">sell</span>
               </div>
-              <div className="mt-2 text-2xl font-semibold text-gray-900">{loading ? '—' : peso(totals.totalPotentialRevenue)}</div>
-              <div className="mt-1 text-xs text-gray-500">Based on current stock × retail price</div>
+              <div className="font-h2 text-h2 text-on-background">{loading ? '—' : peso(totals.totalPotentialRevenue)}</div>
+              <div className="font-body-sm text-body-sm text-on-surface-variant">Based on current stock × retail price</div>
             </div>
 
-            <div className="bg-white shadow rounded-lg p-5">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500">Low stock alerts</div>
-                <AlertTriangle className="w-5 h-5 text-gray-400" />
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-xl">
+              <div className="flex items-center justify-between mb-md">
+                <div className="font-body-md text-body-md text-on-surface-variant">Low stock alerts</div>
+                <span className="material-symbols-outlined text-sm">warning</span>
               </div>
-              <div className="mt-2 text-2xl font-semibold text-gray-900">{loading ? '—' : niceInt(totals.lowStockCount)}</div>
-              <div className="mt-1 text-xs text-gray-500">At or below reorder threshold</div>
+              <div className="font-h2 text-h2 text-on-background">{loading ? '—' : niceInt(totals.lowStockCount)}</div>
+              <div className="font-body-sm text-body-sm text-on-surface-variant">At or below reorder threshold</div>
             </div>
 
-            <div className="bg-white shadow rounded-lg p-5">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500">Deliveries received today</div>
-                <Truck className="w-5 h-5 text-gray-400" />
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-xl">
+              <div className="flex items-center justify-between mb-md">
+                <div className="font-body-md text-body-md text-on-surface-variant">Deliveries received today</div>
+                <span className="material-symbols-outlined text-sm">local_shipping</span>
               </div>
-              <div className="mt-2 text-2xl font-semibold text-gray-900">{loading ? '—' : niceInt(deliveries.receivedUnits)}</div>
-              <div className="mt-1 text-xs text-gray-500">{loading ? '' : `${niceInt(deliveries.receivedCount)} inbound transactions`}</div>
+              <div className="font-h2 text-h2 text-on-background">{loading ? '—' : niceInt(deliveries.receivedUnits)}</div>
+              <div className="font-body-sm text-body-sm text-on-surface-variant">{loading ? '' : `${niceInt(deliveries.receivedCount)} inbound transactions`}</div>
             </div>
           </div>
 
+          {/* Today's Transactions and Inventory Check Tracker */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="bg-white shadow rounded-lg lg:col-span-2">
-              <div className="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Package className="w-4 h-4 text-gray-500" />
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">Today's transactions</div>
-                    <div className="text-xs text-gray-500">Latest activity (today only)</div>
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm lg:col-span-2">
+              <div className="px-lg py-xl">
+                <div className="flex items-center justify-between mb-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-sm">inventory_2</span>
+                    <div>
+                      <div className="font-body-md text-body-md text-on-background">Today's transactions</div>
+                      <div className="font-body-sm text-body-sm text-on-surface-variant">Latest activity (today only)</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="p-5 overflow-x-auto">
-                {loading ? (
-                  <div className="text-sm text-gray-500">Loading…</div>
-                ) : todayTransactions.length === 0 ? (
-                  <div className="text-sm text-gray-500">No transactions yet today.</div>
-                ) : (
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                        <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {todayTransactions.slice(0, 25).map((t) => (
-                        <tr key={t.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{formatDateTime(t.createdAt)}</td>
-                          <td className="px-4 py-3 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900">{t.product?.name}</div>
-                            <div className="text-xs text-gray-500">{t.product?.sku}</div>
-                          </td>
-                          <td className="px-4 py-3 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getTypeBadge(t.type)}`}>
-                              {t.type}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-gray-900">
-                            {t.type === 'INBOUND' ? '+' : '-'}{niceInt(Math.abs(Number(t.quantity) || 0))}
-                          </td>
-                          <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{t.user?.name}</td>
-                          <td className="px-4 py-3 text-sm text-gray-500">{t.remarks || '-'}</td>
+                <div className="p-md overflow-x-auto">
+                  {loading ? (
+                    <div className="font-body-md text-body-md text-on-surface-variant">Loading…</div>
+                  ) : todayTransactions.length === 0 ? (
+                    <div className="font-body-md text-body-md text-on-surface-variant">No transactions yet today.</div>
+                  ) : (
+                    <table className="min-w-full divide-y divide-outline-variant">
+                      <thead className="bg-surface-container-low">
+                        <tr>
+                          <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Time</th>
+                          <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                            <div className="flex items-center gap-2">
+                              <span className="material-symbols-outlined text-sm">inventory_2</span>
+                              Product
+                            </div>
+                          </th>
+                          <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Type</th>
+                          <th className="px-lg py-md text-right font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Qty</th>
+                          <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">User</th>
+                          <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Remarks</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {todayTransactions.slice(0, 25).map((t) => (
+                          <tr key={t.id} className="hover:bg-gray-50">
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{formatDateTime(t.createdAt)}</td>
+                            <td className="px-4 py-3 whitespace-nowrap">
+                              <div className="text-sm font-medium text-gray-900">{t.product?.name}</div>
+                              <div className="text-xs text-gray-500">{t.product?.sku}</div>
+                            </td>
+                            <td className="px-4 py-3 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getTypeBadge(t.type)}`}>
+                                {t.type}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-gray-900">
+                              {t.type === 'INBOUND' ? '+' : '-'}{niceInt(Math.abs(Number(t.quantity) || 0))}
+                            </td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{t.user?.name}</td>
+                            <td className="px-4 py-3 text-sm text-gray-500">{t.remarks || '-'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="bg-white shadow rounded-lg">
-              <div className="px-5 py-4 border-b border-gray-200 flex items-center gap-2">
-                <CalendarClock className="w-4 h-4 text-gray-500" />
-                <div>
-                  <div className="text-sm font-medium text-gray-900">Inventory check tracker</div>
-                  <div className="text-xs text-gray-500">Monthly/Quarterly reminder</div>
-                </div>
-              </div>
-
-              <div className="p-5 space-y-4">
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700">Frequency</label>
-                    <select
-                      value={checkFrequency}
-                      onChange={(e) => setCheckFrequency(e.target.value as CheckFrequency)}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    >
-                      <option value="MONTHLY">Monthly</option>
-                      <option value="QUARTERLY">Quarterly</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700">Last check date</label>
-                    <input
-                      type="date"
-                      value={lastCheckDate}
-                      onChange={(e) => setLastCheckDate(e.target.value)}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                {!checkTracker ? (
-                  <div className="text-sm text-gray-500">
-                    Set a "last check date" to see when the next inventory check is due.
-                  </div>
-                ) : (
-                  <div className={`p-4 rounded-md border ${
-                    checkTracker.daysUntil < 0
-                      ? 'bg-red-50 border-red-200'
-                      : checkTracker.daysUntil <= 7
-                      ? 'bg-yellow-50 border-yellow-200'
-                      : 'bg-green-50 border-green-200'
-                  }`}>
-                    <div className="text-sm font-medium text-gray-900">Next check</div>
-                    <div className="text-sm text-gray-700">{checkTracker.next.toLocaleDateString()}</div>
-                    <div className="mt-1 text-xs text-gray-500">
-                      {checkTracker.daysUntil < 0
-                        ? `${Math.abs(checkTracker.daysUntil)} days overdue`
-                        : `${checkTracker.daysUntil} days remaining`}
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm lg:col-span-1">
+              <div className="px-lg py-xl">
+                <div className="flex items-center justify-between mb-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-sm">schedule</span>
+                    <div>
+                      <div className="font-body-md text-body-md text-on-background">Inventory check tracker</div>
+                      <div className="font-body-sm text-body-sm text-on-surface-variant">Monthly/Quarterly reminder</div>
                     </div>
                   </div>
-                )}
+                </div>
+
+                <div className="p-5 space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700">Frequency</label>
+                      <select
+                        value={checkFrequency}
+                        onChange={(e) => setCheckFrequency(e.target.value as CheckFrequency)}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      >
+                        <option value="MONTHLY">Monthly</option>
+                        <option value="QUARTERLY">Quarterly</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700">Last check date</label>
+                      <input
+                        type="date"
+                        value={lastCheckDate}
+                        onChange={(e) => setLastCheckDate(e.target.value)}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {!checkTracker ? (
+                    <div className="text-sm text-gray-500">
+                      Set a "last check date" to see when the next inventory check is due.
+                    </div>
+                  ) : (
+                    <div className={`p-4 rounded-md border ${
+                      checkTracker.daysUntil < 0
+                        ? 'bg-red-50 border-red-200'
+                        : checkTracker.daysUntil <= 7
+                        ? 'bg-yellow-50 border-yellow-200'
+                        : 'bg-green-50 border-green-200'
+                    }`}>
+                      <div className="text-sm font-medium text-gray-900">Next check</div>
+                      <div className="text-sm text-gray-700">{checkTracker.next.toLocaleDateString()}</div>
+                      <div className="mt-1 text-xs text-gray-500">
+                        {checkTracker.daysUntil < 0
+                          ? `${Math.abs(checkTracker.daysUntil)} days overdue`
+                          : `${checkTracker.daysUntil} days remaining`}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="bg-white shadow rounded-lg">
-              <div className="px-5 py-4 border-b border-gray-200 flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-gray-500" />
-                <div>
-                  <div className="text-sm font-medium text-gray-900">Low stock alert</div>
-                  <div className="text-xs text-gray-500">Products needing attention</div>
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+              <div className="px-lg py-xl">
+                <div className="flex items-center justify-between mb-lg">
+                  <div className="font-body-md text-body-md text-on-surface-variant">Low stock alert</div>
+                  <span className="material-symbols-outlined text-sm">warning</span>
                 </div>
-              </div>
-              <div className="p-5">
-                {loading ? (
-                  <div className="text-sm text-gray-500">Loading…</div>
-                ) : lowStock.length === 0 ? (
-                  <div className="text-sm text-gray-500">No low stock products right now.</div>
-                ) : (
-                  <ul className="space-y-3">
-                    {lowStock.slice(0, 6).map((p: any) => (
-                      <li key={p.id} className="flex items-start justify-between">
-                        <div>
-                          <div className="text-sm font-medium text-gray-900">{p.name}</div>
-                          <div className="text-xs text-gray-500">{p.sku}</div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-sm font-semibold text-red-700">{niceInt(p.currentStock)}</div>
-                          <div className="text-xs text-gray-500">threshold {niceInt(p.reorderThreshold)}</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <div className="p-5">
+                  {loading ? (
+                    <div className="text-sm text-gray-500">Loading…</div>
+                  ) : lowStock.length === 0 ? (
+                    <div className="text-sm text-gray-500">No low stock products right now.</div>
+                  ) : (
+                    <ul className="space-y-3">
+                      {lowStock.slice(0, 6).map((p: any) => (
+                        <li key={p.id} className="flex items-start justify-between">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">{p.name}</div>
+                            <div className="text-xs text-gray-500">{p.sku}</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm font-semibold text-red-700">{niceInt(p.currentStock)}</div>
+                            <div className="text-xs text-gray-500">threshold {niceInt(p.reorderThreshold)}</div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="bg-white shadow rounded-lg">
-              <div className="px-5 py-4 border-b border-gray-200 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-gray-500" />
-                <div>
-                  <div className="text-sm font-medium text-gray-900">Best / worst sellers (30d)</div>
-                  <div className="text-xs text-gray-500">Based on outbound units</div>
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+              <div className="px-lg py-xl">
+                <div className="flex items-center justify-between mb-lg">
+                  <span className="material-symbols-outlined text-sm">trending_up</span>
+                  <div>
+                    <div className="font-body-md text-body-md text-on-background">Best / worst sellers (30d)</div>
+                    <div className="font-body-sm text-body-sm text-on-surface-variant">Based on outbound units</div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="p-5 space-y-4">
-                {loading ? (
-                  <div className="text-sm text-gray-500">Loading…</div>
-                ) : (
-                  <>
-                    <div className="p-4 rounded-md bg-indigo-50 border border-indigo-100">
-                      <div className="text-xs text-indigo-700 font-medium">Best selling</div>
-                      {salesTable.best ? (
-                        <div className="mt-1">
-                          <div className="text-sm font-semibold text-gray-900">{salesTable.best.name}</div>
-                          <div className="text-xs text-gray-600">{salesTable.best.sku}</div>
-                          <div className="mt-2 text-sm text-gray-800">
-                            {niceInt(salesTable.best.unitsSold)} units • {peso(salesTable.best.revenue)}
+                <div className="p-5 space-y-4">
+                  {loading ? (
+                    <div className="text-sm text-gray-500">Loading…</div>
+                  ) : (
+                    <>
+                      <div className="p-4 rounded-md bg-indigo-50 border border-indigo-100">
+                        <div className="text-xs text-indigo-700 font-medium">Best selling</div>
+                        {salesTable.best ? (
+                          <div className="mt-1">
+                            <div className="text-sm font-semibold text-gray-900">{salesTable.best.name}</div>
+                            <div className="text-xs text-gray-600">{salesTable.best.sku}</div>
+                            <div className="mt-2 text-sm text-gray-800">
+                              {niceInt(salesTable.best.unitsSold)} units • {peso(salesTable.best.revenue)}
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="mt-1 text-sm text-gray-600">No sales in the last 30 days.</div>
-                      )}
-                    </div>
+                        ) : (
+                          <div className="mt-1 text-sm text-gray-600">No sales in the last 30 days.</div>
+                        )}
+                      </div>
 
-                    <div className="p-4 rounded-md bg-gray-50 border border-gray-200">
-                      <div className="text-xs text-gray-700 font-medium">Worst selling</div>
-                      {salesTable.worst ? (
-                        <div className="mt-1">
-                          <div className="text-sm font-semibold text-gray-900">{salesTable.worst.name}</div>
-                          <div className="text-xs text-gray-600">{salesTable.worst.sku}</div>
-                          <div className="mt-2 text-sm text-gray-800">
-                            {niceInt(salesTable.worst.unitsSold)} units • {peso(salesTable.worst.revenue)}
+                      <div className="p-4 rounded-md bg-gray-50 border border-gray-200">
+                        <div className="text-xs text-gray-700 font-medium">Worst selling</div>
+                        {salesTable.worst ? (
+                          <div className="mt-1">
+                            <div className="text-sm font-semibold text-gray-900">{salesTable.worst.name}</div>
+                            <div className="text-xs text-gray-600">{salesTable.worst.sku}</div>
+                            <div className="mt-2 text-sm text-gray-800">
+                              {niceInt(salesTable.worst.unitsSold)} units • {peso(salesTable.worst.revenue)}
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="mt-1 text-sm text-gray-600">No sales in the last 30 days.</div>
-                      )}
-                    </div>
-                  </>
-                )}
+                        ) : (
+                          <div className="mt-1 text-sm text-gray-600">No sales in the last 30 days.</div>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="bg-white shadow rounded-lg">
-              <div className="px-5 py-4 border-b border-gray-200 flex items-center gap-2">
-                <TrendingDown className="w-4 h-4 text-gray-500" />
-                <div>
-                  <div className="text-sm font-medium text-gray-900">Buy / hold recommendations</div>
-                  <div className="text-xs text-gray-500">Threshold + sales velocity (30d)</div>
+            <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+              <div className="px-lg py-xl">
+                <div className="flex items-center justify-between mb-lg">
+                  <span className="material-symbols-outlined text-sm">trending_down</span>
+                  <div>
+                    <div className="font-body-md text-body-md text-on-background">Buy / hold recommendations</div>
+                    <div className="font-body-sm text-body-sm text-on-surface-variant">Threshold + sales velocity (30d)</div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="p-5">
-                {loading ? (
-                  <div className="text-sm text-gray-500">Loading…</div>
-                ) : recommendations.length === 0 ? (
-                  <div className="text-sm text-gray-500">No recommendations to show.</div>
-                ) : (
-                  <ul className="space-y-3">
-                    {recommendations.map((r) => (
-                      <li key={r.productId} className="flex items-start justify-between gap-4">
-                        <div>
-                          <div className="text-sm font-medium text-gray-900">{r.name}</div>
-                          <div className="text-xs text-gray-500">{r.sku}</div>
-                          <div className="mt-1 text-xs text-gray-600">{r.reason}</div>
-                        </div>
-                        <div className="text-right">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            r.decision === 'BUY' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
-                          }`}>
-                            {r.decision}
-                          </span>
-                          <div className="mt-1 text-xs text-gray-500">stock {niceInt(r.currentStock)}</div>
-                          <div className="text-xs text-gray-500">{r.avgDaily > 0 ? `~${r.avgDaily.toFixed(2)}/day` : 'no velocity'}</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <div className="p-5">
+                  {loading ? (
+                    <div className="text-sm text-gray-500">Loading…</div>
+                  ) : recommendations.length === 0 ? (
+                    <div className="text-sm text-gray-500">No recommendations to show.</div>
+                  ) : (
+                    <ul className="space-y-3">
+                      {recommendations.map((r) => (
+                        <li key={r.productId} className="flex items-start justify-between gap-4">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">{r.name}</div>
+                            <div className="text-xs text-gray-500">{r.sku}</div>
+                            <div className="mt-1 text-xs text-gray-600">{r.reason}</div>
+                          </div>
+                          <div className="text-right">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              r.decision === 'BUY' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                            }`}>
+                              {r.decision}
+                            </span>
+                            <div className="mt-1 text-xs text-gray-500">stock {niceInt(r.currentStock)}</div>
+                            <div className="text-xs text-gray-500">{r.avgDaily > 0 ? `~${r.avgDaily.toFixed(2)}/day` : 'no velocity'}</div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
             </div>
           </div>

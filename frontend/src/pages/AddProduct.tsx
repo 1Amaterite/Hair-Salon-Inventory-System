@@ -70,7 +70,7 @@ const AddProduct: React.FC = () => {
 
   
   return (
-    <SideNavigation title="Add New Product" configType="with-recent">
+    <SideNavigation configType="with-recent">
       <div className="max-w-4xl mx-auto">
         <div className="space-y-xl">
           {/* Header Section */}

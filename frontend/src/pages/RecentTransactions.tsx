@@ -71,7 +71,7 @@ const RecentTransactions: React.FC = () => {
 
   if (loading) {
     return (
-      <SideNavigation title="Recent Transactions" configType="with-recent">
+      <SideNavigation configType="with-recent">
         <div className="flex items-center justify-center h-64">
           <div className="font-h3 text-h3 text-on-surface-variant">Loading transactions...</div>
         </div>
@@ -80,7 +80,7 @@ const RecentTransactions: React.FC = () => {
   }
 
   return (
-    <SideNavigation title="Recent Transactions" configType="with-recent">
+    <SideNavigation configType="with-recent">
       <div className="max-w-6xl mx-auto">
         <div className="space-y-xl">
           {/* Header Section */}

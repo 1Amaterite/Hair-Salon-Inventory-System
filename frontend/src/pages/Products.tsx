@@ -113,7 +113,7 @@ const Products: React.FC = () => {
   
   if (loading) {
     return (
-      <SideNavigation title="Products" configType="with-recent">
+      <SideNavigation configType="without-recent">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
             <div className="bg-white shadow rounded-lg">
@@ -204,7 +204,7 @@ const Products: React.FC = () => {
   }
 
   return (
-    <SideNavigation title="Products" configType="with-recent">
+    <SideNavigation configType="with-recent">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           {error && (

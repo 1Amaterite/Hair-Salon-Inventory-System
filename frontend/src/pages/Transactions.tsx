@@ -73,7 +73,7 @@ const Transactions: React.FC = () => {
   const selectedProductData = products.find(p => p.id === selectedProduct);
 
   return (
-    <SideNavigation title="Create Transaction" configType="with-recent">
+    <SideNavigation configType="with-recent">
       <div className="max-w-2xl mx-auto">
         <div className="space-y-xl">
           {/* Header Section */}
@@ -137,9 +137,9 @@ const Transactions: React.FC = () => {
                 </label>
                 <div className="grid grid-cols-3 gap-sm">
                   {[
-                    { value: 'INBOUND', label: 'Stock In', icon: 'inventory_2', color: 'primary' },
-                    { value: 'OUTBOUND', label: 'Sales', icon: 'sell', color: 'tertiary' },
-                    { value: 'USAGE', label: 'Services', icon: 'content_cut', color: 'secondary' }
+                    { value: 'INBOUND', label: 'Inbound Stock', icon: 'inventory_2', selectedClass: 'bg-primary text-on-primary border-primary' },
+                    { value: 'OUTBOUND', label: 'Outbound Stock (Sales)', icon: 'sell', selectedClass: 'bg-tertiary text-on-tertiary border-tertiary' },
+                    { value: 'USAGE', label: 'Usage (Services)', icon: 'content_cut', selectedClass: 'bg-secondary text-on-secondary border-secondary' }
                   ].map((type) => (
                     <button
                       key={type.value}
@@ -148,7 +148,7 @@ const Transactions: React.FC = () => {
                       disabled={fetchingProducts}
                       className={`p-md rounded-lg border transition-all duration-200 ${
                         transactionType === type.value
-                          ? `bg-${type.color} text-on-${type.color} border-${type.color}`
+                          ? type.selectedClass
                           : 'bg-surface border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary'
                       } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >

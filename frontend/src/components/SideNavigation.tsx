@@ -5,12 +5,11 @@ import { getNavbarConfig } from '../utils/navbarConfig';
 import { Clock, LayoutDashboard, Package, Plus, Tag } from 'lucide-react';
 
 interface SideNavigationProps {
-  title: string;
   configType?: 'standard' | 'without-recent' | 'with-recent';
   children: React.ReactNode;
 }
 
-const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'standard', children }) => {
+const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard', children }) => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
@@ -84,33 +83,19 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 border-r border-slate-800 shadow-xl flex flex-col">
-        <div className="p-6">
+      <aside className="w-64 bg-surface-container-lowest border-r border-outline-variant shadow-xl flex flex-col">
+        <div className="p-6 border-b border-outline-variant">
           <div className="flex items-center gap-3">
             <img
               src="/logo.png"
               alt="Alpha 8 Logo"
-              className="h-10 w-10 rounded-lg object-contain"
+              className="h-10 w-10 rounded-lg object-contain border border-outline-variant"
             />
             <div>
-              <h1 className="text-xl font-black text-white leading-none">Alpha 8</h1>
-              <p className="text-xs tracking-wide uppercase text-slate-400 mt-1">Inventory System</p>
+              <h1 className="text-xl font-black text-primary leading-none">Alpha 8</h1>
+              <p className="text-xs tracking-wide uppercase text-on-surface-variant mt-1">Inventory System</p>
             </div>
           </div>
-        </div>
-
-        <div className="px-4 mb-6">
-          <button
-            onClick={handleNewTransaction}
-            className={`w-full flex items-center justify-center gap-2 font-bold py-3 px-4 rounded-lg transition-all ${
-              isActiveRoute('/transactions')
-                ? 'bg-slate-800 text-white border-l-4 border-blue-500 rounded-r-md'
-                : 'bg-blue-600 hover:bg-blue-500 text-white'
-            }`}
-          >
-            <Plus className="w-5 h-5" />
-            <span>Create Transaction</span>
-          </button>
         </div>
 
         {/* Navigation Items */}
@@ -121,8 +106,8 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
               onClick={item.onClick}
               className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all ${
                 item.active
-                  ? 'bg-slate-800 text-white border-l-4 border-blue-500 rounded-r-md'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                  ? 'bg-primary-fixed-dim/20 text-primary border-l-4 border-primary rounded-r-md'
+                  : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'
               }`}
             >
               <item.icon className="w-5 h-5" />
@@ -133,10 +118,10 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
 
         {/* User Section */}
         {user && (
-          <div className="p-4 border-t border-slate-800 space-y-1">
+          <div className="p-4 border-t border-outline-variant space-y-1">
             <button
               onClick={handleLogout}
-              className="w-full mt-2 px-4 py-2 text-sm text-red-300 hover:text-red-200 border border-slate-700 rounded-lg hover:bg-slate-800/60"
+              className="w-full mt-2 px-4 py-2 text-sm text-error hover:text-on-error-container border border-outline-variant rounded-lg hover:bg-error-container/10"
             >
               Logout
             </button>
@@ -147,22 +132,24 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ title, configType = 'st
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="sticky top-0 z-40 flex h-16 items-center justify-between px-6 w-full bg-white border-b border-slate-200 shadow-sm">
-          <div className="flex items-center flex-1 gap-6">
-            <div>
-              <h2 className="font-h2 text-h2 text-on-background">{title}</h2>
-            </div>
-          </div>
-
+        <header className="sticky top-0 z-40 flex h-16 items-center justify-between px-6 w-full bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant shadow-sm">
+          <div className="flex-1"></div>
           <div className="flex items-center gap-4">
+            <button
+              onClick={handleNewTransaction}
+              className="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-lg hover:bg-primary-container transition-colors font-bold shadow-sm"
+            >
+              <Plus className="w-5 h-5" />
+              <span>Create Transaction</span>
+            </button>
             {user && (
-              <div className="flex items-center gap-3 ml-2 pl-4 border-l border-slate-200">
+              <div className="flex items-center gap-3 ml-2 pl-4 border-l border-outline-variant">
                 <div className="text-right">
-                  <p className="text-xs font-bold text-slate-900">{user.name}</p>
-                  <p className="text-[10px] text-slate-500 uppercase tracking-tighter">{user.role}</p>
+                  <p className="text-xs font-bold text-on-surface">{user.name}</p>
+                  <p className="text-[10px] text-on-surface-variant uppercase tracking-tighter">{user.role}</p>
                 </div>
-                <div className="w-8 h-8 rounded-full border border-slate-200 bg-slate-100 flex items-center justify-center">
-                  <span className="text-slate-700 text-sm font-bold">{user.name.charAt(0).toUpperCase()}</span>
+                <div className="w-8 h-8 rounded-full border border-outline-variant bg-surface-variant flex items-center justify-center">
+                  <span className="text-on-surface text-sm font-bold">{user.name.charAt(0).toUpperCase()}</span>
                 </div>
               </div>
             )}

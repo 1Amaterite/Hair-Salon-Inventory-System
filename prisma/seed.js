@@ -1,16 +1,21 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 Starting database seeding...');
 
+  // Hash passwords
+  const adminPasswordHash = await bcrypt.hash('admin123', 10);
+  const staffPasswordHash = await bcrypt.hash('staff123', 10);
+
   // Create sample users
   const adminUser = await prisma.user.create({
     data: {
       name: 'Admin User',
       username: 'admin',
-      passwordHash: '$2a$10$example_hash', // This would be properly hashed in real app
+      passwordHash: adminPasswordHash,
       role: 'ADMIN',
       isActive: true
     }
@@ -20,7 +25,7 @@ async function main() {
     data: {
       name: 'Staff User',
       username: 'staff',
-      passwordHash: '$2a$10$example_hash', // This would be properly hashed in real app
+      passwordHash: staffPasswordHash,
       role: 'STAFF',
       isActive: true
     }

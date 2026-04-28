@@ -318,7 +318,7 @@ const Reports: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Package className="w-4 h-4 text-gray-500" />
                   <div>
-                    <div className="text-sm font-medium text-gray-900">Today’s transactions</div>
+                    <div className="text-sm font-medium text-gray-900">Today's transactions</div>
                     <div className="text-xs text-gray-500">Latest activity (today only)</div>
                   </div>
                 </div>
@@ -402,7 +402,7 @@ const Reports: React.FC = () => {
 
                 {!checkTracker ? (
                   <div className="text-sm text-gray-500">
-                    Set a “last check date” to see when the next inventory check is due.
+                    Set a "last check date" to see when the next inventory check is due.
                   </div>
                 ) : (
                   <div className={`p-4 rounded-md border ${

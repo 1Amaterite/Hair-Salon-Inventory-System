@@ -7,6 +7,7 @@ import AddProduct from './pages/AddProduct';
 import RecentTransactions from './pages/RecentTransactions';
 import Reports from './pages/Reports';
 import DeliveryDestinations from './pages/DeliveryDestinations';
+import ActiveOrders from './pages/ActiveOrders';
 import { UserProvider } from './contexts/UserContext';
 
 // Protected Route Component
@@ -31,6 +32,27 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const user = JSON.parse(userStr);
     if (user.role !== 'ADMIN') {
       return <Navigate to="/products" replace />;
+    }
+  } catch (error) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+// Staff Only Route Component
+const StaffRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const token = localStorage.getItem('token');
+  const userStr = localStorage.getItem('user');
+  
+  if (!token || !userStr) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  try {
+    const user = JSON.parse(userStr);
+    if (!['STAFF', 'ADMIN'].includes(user.role)) {
+      return <Navigate to="/login" replace />;
     }
   } catch (error) {
     return <Navigate to="/login" replace />;
@@ -92,6 +114,14 @@ function App() {
               <AdminRoute>
                 <DeliveryDestinations />
               </AdminRoute>
+            }
+          />
+          <Route
+            path="/staff/active-orders"
+            element={
+              <StaffRoute>
+                <ActiveOrders />
+              </StaffRoute>
             }
           />
           <Route path="/" element={<Navigate to="/transactions" replace />} />

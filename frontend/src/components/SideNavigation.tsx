@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { getNavbarConfig } from '../utils/navbarConfig';
-import { Clock, LayoutDashboard, Package, Plus, Tag, MapPin } from 'lucide-react';
+import { Clock, LayoutDashboard, Package, Plus, Tag, MapPin, Truck } from 'lucide-react';
 
 interface SideNavigationProps {
   configType?: 'standard' | 'without-recent' | 'with-recent';
@@ -40,6 +40,10 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
     navigate('/admin/destinations');
   };
 
+  const handleActiveOrders = () => {
+    navigate('/staff/active-orders');
+  };
+
   const handleLogout = async () => {
     await logout();
     navigate('/login');
@@ -57,6 +61,14 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
       show: config.showReports && user?.role === 'ADMIN',
       active: isActiveRoute('/admin/reports'),
       icon: LayoutDashboard
+    },
+    {
+      key: 'active-orders',
+      label: 'Active Orders',
+      onClick: handleActiveOrders,
+      show: ['STAFF', 'ADMIN'].includes(user?.role || ''),
+      active: isActiveRoute('/staff/active-orders'),
+      icon: Truck
     },
     {
       key: 'destinations',

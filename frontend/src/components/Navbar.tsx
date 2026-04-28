@@ -63,6 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({
           
           <div className="flex items-center space-x-4">
             {/* Action Buttons - Role-based */}
+
             <div className="flex space-x-3">
               {/* Staff can view products */}
               {showViewProducts && (

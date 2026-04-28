@@ -193,6 +193,11 @@ const ActiveOrders: React.FC = () => {
                       <div>
                         <div className="text-sm font-medium text-gray-900">{order.orderNumber}</div>
                         <div className="text-xs text-gray-500">{formatDate(order.createdAt)}</div>
+                        {order.transaction && (
+                          <div className="text-xs text-gray-400 mt-1">
+                            Product: {order.transaction.product?.name}
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4">

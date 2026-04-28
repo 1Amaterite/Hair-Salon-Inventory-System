@@ -4,7 +4,7 @@ export interface Transaction {
   id: string;
   productId: string;
   userId: string;
-  type: 'INBOUND' | 'OUTBOUND' | 'USAGE' | 'ADJUSTMENT';
+  type: 'INBOUND' | 'OUTBOUND' | 'USAGE' | 'TRANSFER' | 'ADJUSTMENT';
   quantity: number;
   remarks?: string;
   createdAt: string;
@@ -21,13 +21,19 @@ export interface Transaction {
     role: string;
   };
   currentStock: number;
+  order?: {
+    id: string;
+    orderNumber: string;
+    status: string;
+  };
 }
 
 export interface CreateTransactionRequest {
   productId: string;
-  type: 'INBOUND' | 'OUTBOUND' | 'USAGE' | 'ADJUSTMENT';
+  type: 'INBOUND' | 'OUTBOUND' | 'USAGE' | 'TRANSFER' | 'ADJUSTMENT';
   quantity: number;
   remarks?: string;
+  destinationId?: string;
 }
 
 export interface TransactionsResponse {
@@ -54,7 +60,7 @@ export const transactionsApi = {
     return response.data;
   },
 
-  createTransaction: async (transactionData: CreateTransactionRequest): Promise<{ success: boolean; message: string; data: Transaction }> => {
+  createTransaction: async (transactionData: CreateTransactionRequest): Promise<{ success: boolean; message: string; data: { transaction: Transaction; order?: any } }> => {
     const response = await api.post('/transactions', transactionData);
     return response.data;
   },

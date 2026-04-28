@@ -20,6 +20,11 @@ export interface Order {
       name: string;
       username: string;
     };
+    product: {
+      name: string;
+      sku: string;
+      category: string;
+    };
   };
   destination: {
     id: string;

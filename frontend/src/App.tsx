@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
-import Transactions from './pages/Transactions';
 import Products from './pages/Products';
 import AddProduct from './pages/AddProduct';
 import RecentTransactions from './pages/RecentTransactions';
 import Reports from './pages/Reports';
 import DeliveryDestinations from './pages/DeliveryDestinations';
 import ActiveOrders from './pages/ActiveOrders';
+import TransactionPage from './pages/Transaction';
 import { UserProvider } from './contexts/UserContext';
 
 // Protected Route Component
@@ -72,9 +72,9 @@ function App() {
               path="/transactions" 
               element={
                 <ProtectedRoute>
-                  <Transactions />
+                  <TransactionPage />
                 </ProtectedRoute>
-              } 
+              }
             />
             <Route 
               path="/products" 

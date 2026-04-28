@@ -39,6 +39,13 @@ const getAllActiveOrders = async (filters = {}) => {
               name: true,
               username: true
             }
+          },
+          product: {
+            select: {
+              name: true,
+              sku: true,
+              category: true
+            }
           }
         }
       },

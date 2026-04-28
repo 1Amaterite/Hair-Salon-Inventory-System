@@ -44,6 +44,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
     navigate('/staff/active-orders');
   };
 
+  
   const handleLogout = async () => {
     await logout();
     navigate('/login');
@@ -70,7 +71,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
       active: isActiveRoute('/staff/active-orders'),
       icon: Truck
     },
-    {
+        {
       key: 'destinations',
       label: 'Delivery Destinations',
       onClick: handleDestinations,

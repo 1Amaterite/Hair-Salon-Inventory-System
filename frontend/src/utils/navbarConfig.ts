@@ -7,7 +7,7 @@ export const NAVBAR_CONFIG = {
     showNewTransaction: true,
     showAddProduct: true, // Will only show for admin users
     showReports: true, // Will only show for admin users
-    showRecentTransactions: false,
+    showRecentTransactions: true,
   },
   
   // Pages that don't need Recent Transactions button

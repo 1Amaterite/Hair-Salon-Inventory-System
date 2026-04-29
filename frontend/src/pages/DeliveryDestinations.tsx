@@ -95,7 +95,7 @@ const DeliveryDestinations: React.FC = () => {
 
   if (loading) {
     return (
-      <SideNavigation>
+      <SideNavigation configType="with-recent">
         <div className="flex items-center justify-center h-64">
           <div className="text-gray-500">Loading destinations...</div>
         </div>
@@ -104,7 +104,7 @@ const DeliveryDestinations: React.FC = () => {
   }
 
   return (
-    <SideNavigation>
+    <SideNavigation configType="with-recent">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">

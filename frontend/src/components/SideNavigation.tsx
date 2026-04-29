@@ -71,7 +71,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
       key: 'staff-dashboard',
       label: 'Staff Dashboard',
       onClick: handleStaffDashboard,
-      show: ['STAFF', 'ADMIN'].includes(user?.role || ''),
+      show: user?.role === 'STAFF',
       active: isActiveRoute('/staff/dashboard'),
       icon: LayoutDashboard
     },

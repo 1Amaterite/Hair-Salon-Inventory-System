@@ -245,32 +245,22 @@ async function validateTransactionHandler(req, res) {
       });
     }
 
-    // Check admin permission for ADJUSTMENT
-    if (validation.data.type === 'ADJUSTMENT' && user.role !== 'ADMIN') {
-      return res.status(403).json({
-        success: false,
-        message: 'Only ADMIN users can create ADJUSTMENT transactions'
-      });
-    }
-
     // Check for negative stock (simulation)
-    if (validation.data.type !== 'ADJUSTMENT') {
-      const { wouldCauseNegativeStock } = require('../services/stockService');
-      const wouldBeNegative = await wouldCauseNegativeStock(
-        validation.data.productId, 
-        validation.data.quantity
-      );
+    const { wouldCauseNegativeStock } = require('../services/stockService');
+    const wouldBeNegative = await wouldCauseNegativeStock(
+      validation.data.productId, 
+      validation.data.quantity
+    );
 
-      if (wouldBeNegative) {
-        return res.status(400).json({
-          success: false,
-          message: 'Transaction would cause negative stock',
-          errors: [{
-            field: 'quantity',
-            message: 'This transaction would result in negative stock levels'
-          }]
-        });
-      }
+    if (wouldBeNegative) {
+      return res.status(400).json({
+        success: false,
+        message: 'Transaction would cause negative stock',
+        errors: [{
+          field: 'quantity',
+          message: 'This transaction would result in negative stock levels'
+        }]
+      });
     }
 
     res.status(200).json({

@@ -25,11 +25,7 @@ async function createTransaction(transactionData, user) {
     throw new Error(`Quantity validation failed: ${quantityValidation.errors.map(e => e.message).join(', ')}`);
   }
 
-  // Check if user has permission for ADJUSTMENT transactions
-  if (type === 'ADJUSTMENT' && user.role !== 'ADMIN') {
-    throw new Error('Only ADMIN users can create ADJUSTMENT transactions');
-  }
-
+  
   // Verify product exists and is active
   const product = await prisma.product.findUnique({
     where: { id: productId }
@@ -43,8 +39,8 @@ async function createTransaction(transactionData, user) {
     throw new Error('Product is not active');
   }
 
-  // Check for negative stock prevention (except for ADJUSTMENT)
-  if (type !== 'ADJUSTMENT' && await wouldCauseNegativeStock(productId, quantity)) {
+  // Check for negative stock prevention
+  if (await wouldCauseNegativeStock(productId, quantity)) {
     const currentStock = await calculateCurrentStock(productId);
     throw new Error(`Transaction would cause negative stock. Current stock: ${currentStock}, Attempted quantity: ${quantity}`);
   }

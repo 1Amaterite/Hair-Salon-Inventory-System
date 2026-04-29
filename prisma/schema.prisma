@@ -20,8 +20,6 @@ enum TransactionType {
   INBOUND    // Stock coming in (purchases, returns)
   OUTBOUND   // Stock going out (sales, transfers)
   USAGE      // Product used in salon services
-  TRANSFER   // Moving stock between locations
-  ADJUSTMENT // Manual stock adjustments
 }
 
 enum AuditAction {

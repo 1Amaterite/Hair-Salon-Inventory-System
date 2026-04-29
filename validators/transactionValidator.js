@@ -1,6 +1,6 @@
 /*  */const Joi = require('joi');
 
-const transactionTypes = ['INBOUND', 'OUTBOUND', 'USAGE', 'ADJUSTMENT'];
+const transactionTypes = ['INBOUND', 'OUTBOUND', 'USAGE'];
 
 const createTransactionSchema = Joi.object({
   productId: Joi.string().required().messages({
@@ -8,7 +8,7 @@ const createTransactionSchema = Joi.object({
     'any.required': 'Product ID is required'
   }),
   type: Joi.string().valid(...transactionTypes).required().messages({
-    'any.only': 'Transaction type must be one of: INBOUND, OUTBOUND, USAGE, ADJUSTMENT',
+    'any.only': 'Transaction type must be one of: INBOUND, OUTBOUND, USAGE',
     'any.required': 'Transaction type is required'
   }),
   quantity: Joi.number().integer().not(0).required().messages({
@@ -24,7 +24,7 @@ const createTransactionSchema = Joi.object({
 
 const updateTransactionSchema = Joi.object({
   type: Joi.string().valid(...transactionTypes).optional().messages({
-    'any.only': 'Transaction type must be one of: INBOUND, OUTBOUND, USAGE, ADJUSTMENT'
+    'any.only': 'Transaction type must be one of: INBOUND, OUTBOUND, USAGE'
   }),
   quantity: Joi.number().integer().not(0).optional().messages({
     'number.base': 'Quantity must be a number',
@@ -116,9 +116,6 @@ function validateQuantityByType(quantity, type) {
           value: quantity
         });
       }
-      break;
-    case 'ADJUSTMENT':
-      // ADJUSTMENT can be positive or negative
       break;
     default:
       errors.push({

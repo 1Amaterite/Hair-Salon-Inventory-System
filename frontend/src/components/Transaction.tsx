@@ -3,17 +3,12 @@ import {
   Package, 
   Truck, 
   Scissors, 
-  RefreshCw, 
-  Settings,
-  ChevronRight,
   ChevronLeft,
   Search,
   Plus,
   Minus,
   Camera,
-  CheckCircle,
-  AlertCircle,
-  DollarSign
+  CheckCircle
 } from 'lucide-react';
 import { productsApi, Product } from '../api/products';
 import { transactionsApi } from '../api/transactions';
@@ -41,20 +36,6 @@ const TRANSACTION_TYPES = [
     icon: Scissors,
     description: 'Products used in salon services',
     color: 'bg-purple-500'
-  },
-  {
-    type: 'TRANSFER',
-    label: 'Stock Transfer',
-    icon: RefreshCw,
-    description: 'Moving stock between locations',
-    color: 'bg-orange-500'
-  },
-  {
-    type: 'ADJUSTMENT',
-    label: 'Adjustment',
-    icon: Settings,
-    description: 'Manual inventory corrections',
-    color: 'bg-gray-500'
   }
 ];
 
@@ -317,7 +298,7 @@ const Transaction: React.FC = () => {
           </div>
         )}
 
-        {(transactionData.type === 'USAGE' || transactionData.type === 'TRANSFER' || transactionData.type === 'ADJUSTMENT') && (
+        {transactionData.type === 'USAGE' && (
           <div className="text-center py-8">
             <button
               onClick={() => setCurrentStep(3)}

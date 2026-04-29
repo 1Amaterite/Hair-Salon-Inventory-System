@@ -1,6 +1,7 @@
 const { createTransaction, getTransactionHistory, getTransactionById, getTransactionSummary } = require('../services/transactionService');
 const { getLowStockProducts } = require('../services/stockService');
 const { validateTransaction, getTransactionHistorySchema } = require('../validators/transactionValidator');
+const { createOrder } = require('../services/orderService');
 
 /**
  * Create a new transaction
@@ -14,10 +15,33 @@ async function createTransactionHandler(req, res) {
 
     const transaction = await createTransaction(transactionData, user);
 
+    // If this is an OUTBOUND transaction and has a destinationId, create an Order
+    let order = null;
+    if (transactionData.type === 'OUTBOUND' && transactionData.destinationId) {
+      try {
+        // Calculate expected delivery date (3 days from now by default)
+        const expectedDeliveryDate = new Date();
+        expectedDeliveryDate.setDate(expectedDeliveryDate.getDate() + 3);
+
+        order = await createOrder({
+          transactionId: transaction.id,
+          destinationId: transactionData.destinationId,
+          expectedDeliveryDate: expectedDeliveryDate.toISOString(),
+          notes: transactionData.remarks || 'Auto-generated from transaction'
+        });
+      } catch (orderError) {
+        console.error('Error creating order:', orderError);
+        // Don't fail the transaction if order creation fails
+      }
+    }
+
     res.status(201).json({
       success: true,
       message: 'Transaction created successfully',
-      data: transaction
+      data: {
+        transaction,
+        order: order
+      }
     });
   } catch (error) {
     console.error('Error creating transaction:', error);

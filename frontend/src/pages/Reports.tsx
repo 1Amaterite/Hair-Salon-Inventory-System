@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { productsApi, Product } from '../api/products';
 import { transactionsApi, Transaction } from '../api/transactions';
 import SideNavigation from '../components/SideNavigation';
+import { useNavigate } from 'react-router-dom';
 
 type CheckFrequency = 'MONTHLY' | 'QUARTERLY';
 
@@ -83,6 +84,8 @@ const Reports: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [todayTransactions, setTodayTransactions] = useState<Transaction[]>([]);
   const [lowStock, setLowStock] = useState<any[]>([]);
+
+  const navigate = useNavigate();
 
   // “Next check” tracker is stored locally for now.
   const [checkFrequency, setCheckFrequency] = useState<CheckFrequency>(() => {
@@ -280,7 +283,7 @@ const Reports: React.FC = () => {
                             <p className="font-body-md text-body-md text-error">{niceInt(p.currentStock)} units remaining</p>
                           </div>
                         </div>
-                        <button className="text-primary font-headline-sm text-headline-sm hover:underline">Reorder</button>
+                        <button onClick={() => navigate('/transactions')} className="text-primary font-headline-sm text-headline-sm hover:underline">Reorder</button>
                       </li>
                     ))
                   )}

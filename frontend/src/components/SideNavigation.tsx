@@ -44,6 +44,10 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
     navigate('/staff/active-orders');
   };
 
+  const handleStaffDashboard = () => {
+    navigate('/staff/dashboard');
+  };
+
   
   const handleLogout = async () => {
     await logout();
@@ -61,6 +65,14 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
       onClick: handleReports,
       show: config.showReports && user?.role === 'ADMIN',
       active: isActiveRoute('/admin/reports'),
+      icon: LayoutDashboard
+    },
+    {
+      key: 'staff-dashboard',
+      label: 'Staff Dashboard',
+      onClick: handleStaffDashboard,
+      show: ['STAFF', 'ADMIN'].includes(user?.role || ''),
+      active: isActiveRoute('/staff/dashboard'),
       icon: LayoutDashboard
     },
     {

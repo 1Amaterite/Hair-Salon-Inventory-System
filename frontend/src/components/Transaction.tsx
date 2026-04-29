@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   Package, 
   Truck, 
@@ -58,11 +59,15 @@ interface TransactionData {
 }
 
 const Transaction: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [transactionData, setTransactionData] = useState<TransactionData>({
-    type: '',
-    items: []
+  const location = useLocation();
+  const [currentStep, setCurrentStep] = useState(() => {
+    // If we have a preselected type from navigation, start at step 2
+    return location.state?.preselectedType ? 2 : 1;
   });
+  const [transactionData, setTransactionData] = useState<TransactionData>(() => ({
+    type: location.state?.preselectedType || '',
+    items: []
+  }));
   const [products, setProducts] = useState<Product[]>([]);
   const [destinations, setDestinations] = useState<DeliveryDestination[]>([]);
   // TODO: suppliers should be stored in the database.

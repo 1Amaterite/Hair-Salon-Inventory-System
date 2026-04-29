@@ -8,6 +8,7 @@ import Reports from './pages/Reports';
 import DeliveryDestinations from './pages/DeliveryDestinations';
 import ActiveOrders from './pages/ActiveOrders';
 import TransactionPage from './pages/Transaction';
+import StaffDashboard from './pages/StaffDashboard';
 import { UserProvider } from './contexts/UserContext';
 
 // Protected Route Component
@@ -121,6 +122,14 @@ function App() {
             element={
               <StaffRoute>
                 <ActiveOrders />
+              </StaffRoute>
+            }
+          />
+          <Route
+            path="/staff/dashboard"
+            element={
+              <StaffRoute>
+                <StaffDashboard />
               </StaffRoute>
             }
           />

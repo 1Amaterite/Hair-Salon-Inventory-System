@@ -65,6 +65,7 @@ const Transaction: React.FC = () => {
   });
   const [products, setProducts] = useState<Product[]>([]);
   const [destinations, setDestinations] = useState<DeliveryDestination[]>([]);
+  // TODO: suppliers should be stored in the database.
   const [suppliers] = useState([
     { id: '1', name: 'Beauty Supply Co', contact: '+1-555-0101' },
     { id: '2', name: 'Hair Care Distributors', contact: '+1-555-0102' },

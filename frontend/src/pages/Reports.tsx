@@ -167,7 +167,7 @@ const Reports: React.FC = () => {
               <h2 className="font-headline-lg text-headline-lg text-on-surface">Dashboard Overview</h2>
               <p className="font-body-lg text-body-lg text-on-surface-variant mt-2">Welcome back. Here is your inventory status for today.</p>
             </div>
-            <button className="bg-primary text-on-primary font-headline-sm text-headline-sm px-4 py-2 rounded-lg hover:bg-primary-container transition-colors flex items-center gap-2 shadow-sm">
+            <button onClick={() => navigate('/products/add')} className="bg-primary text-on-primary font-headline-sm text-headline-sm px-4 py-2 rounded-lg hover:bg-primary-container transition-colors flex items-center gap-2 shadow-sm">
               <span className="material-symbols-outlined text-sm">add</span>
               New Product
             </button>

@@ -119,8 +119,8 @@ const Transaction: React.FC = () => {
         productId: product.id,
         product,
         quantity: 1,
-        unitCost: product.retailPrice * 0.6, // Estimate cost
-        totalCost: product.retailPrice * 0.6
+        unitCost: Number(product.wholesaleCost), // Estimate cost
+        totalCost: Number(product.wholesaleCost)
       };
       setTransactionData(prev => ({
         ...prev,
@@ -405,7 +405,7 @@ const Transaction: React.FC = () => {
                 <div className="font-medium text-gray-900">{product.name}</div>
                 <div className="text-sm text-gray-600">SKU: {product.sku}</div>
                 <div className="text-sm text-gray-500">
-                  Stock: {product.currentStock} | ${product.retailPrice}
+                  Stock: {product.currentStock} | ₱{product.wholesaleCost}
                 </div>
                 {isSelected && (
                   <div className="text-sm text-green-600 font-medium mt-1">

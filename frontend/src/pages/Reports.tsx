@@ -211,7 +211,7 @@ const Reports: React.FC = () => {
             <div className="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-headline-md text-headline-md text-on-surface">Today's Transactions</h3>
-                <button className="text-primary font-headline-sm text-headline-sm hover:underline">View All</button>
+                {/*<button className="text-primary font-headline-sm text-headline-sm hover:underline">View All</button> */}
               </div>
               <div className="overflow-x-auto">
                 {loading ? (

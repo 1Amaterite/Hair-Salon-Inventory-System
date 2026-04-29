@@ -76,6 +76,10 @@ const Products: React.FC = () => {
               aValue = Number(a.retailPrice);
               bValue = Number(b.retailPrice);
               break;
+            case 'wholesaleCost':
+              aValue = Number(a.wholesaleCost);
+              bValue = Number(b.wholesaleCost);
+              break;
             default:
               return 0;
           }
@@ -161,6 +165,12 @@ const Products: React.FC = () => {
                           </div>
                         </th>
                         <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">sell</span>
+                            Wholesale Cost
+                          </div>
+                        </th>
+                        <th className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Status
                         </th>
                       </tr>
@@ -183,6 +193,9 @@ const Products: React.FC = () => {
                           </td>
                           <td className="px-lg py-md whitespace-nowrap">
                             <div className="h-4 bg-surface-container-highest rounded w-8"></div>
+                          </td>
+                          <td className="px-lg py-md whitespace-nowrap">
+                            <div className="h-4 bg-surface-container-highest rounded w-16"></div>
                           </td>
                           <td className="px-lg py-md whitespace-nowrap">
                             <div className="h-4 bg-surface-container-highest rounded w-16"></div>
@@ -255,6 +268,8 @@ const Products: React.FC = () => {
                         <option value="currentStock-desc">Stock (High to Low)</option>
                         <option value="retailPrice-asc">Price (Low to High)</option>
                         <option value="retailPrice-desc">Price (High to Low)</option>
+                        <option value="wholesaleCost-asc">Wholesale (Low to High)</option>
+                        <option value="wholesaleCost-desc">Wholesale (High to Low)</option>
                       </select>
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <span className="material-symbols-outlined text-sm text-on-surface-variant">swap_vert</span>
@@ -316,6 +331,12 @@ const Products: React.FC = () => {
                           </div>
                         </th>
                         <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                          <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">sell</span>
+                            Wholesale Cost
+                          </div>
+                        </th>
+                        <th scope="col" className="px-lg py-md text-left font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
                           Status
                         </th>
                       </tr>
@@ -356,6 +377,9 @@ const Products: React.FC = () => {
                           </td>
                           <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
                             ₱{Number(product.retailPrice).toFixed(2)}
+                          </td>
+                          <td className="px-lg py-md whitespace-nowrap font-body-md text-body-md text-on-background">
+                            ₱{Number(product.wholesaleCost).toFixed(2)}
                           </td>
                           <td className="px-lg py-md whitespace-nowrap">
                             <span className={`inline-flex items-center gap-1 px-md py-sm font-label-md font-label-md rounded-full ${

@@ -48,7 +48,7 @@ const Login: React.FC = () => {
         <div className="text-center">
           <div className="flex justify-center mb-lg">
             <div className="w-20 h-20 bg-primary rounded-xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-4xl text-on-primary">spa</span>
+            <span className="material-symbols-outlined text-4xl text-on-primary">spa</span> 
             </div>
           </div>
           <h2 className="font-h1 text-h1 text-on-background mb-md">

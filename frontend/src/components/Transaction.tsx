@@ -364,7 +364,7 @@ const Transaction: React.FC = () => {
                   <div className="font-medium text-gray-900">{item.product.name}</div>
                   <div className="text-sm text-gray-600">SKU: {item.product.sku}</div>
                   <div className="text-sm text-gray-500">
-                    ${(item.unitCost || 0).toFixed(2)} per unit
+                    ₱{(item.unitCost || 0).toFixed(2)} per unit
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -382,7 +382,7 @@ const Transaction: React.FC = () => {
                     <Plus className="w-4 h-4" />
                   </button>
                   <div className="w-20 text-right font-medium">
-                    ${(item.totalCost || 0).toFixed(2)}
+                    ₱{(item.totalCost || 0).toFixed(2)}
                   </div>
                 </div>
               </div>
@@ -428,7 +428,7 @@ const Transaction: React.FC = () => {
       {transactionData.items.length > 0 && (
         <div className="flex justify-between items-center">
           <div className="text-lg font-semibold text-gray-900">
-            Total: ${calculateTotal().toFixed(2)}
+            Total: ₱{calculateTotal().toFixed(2)}
           </div>
           <button
             onClick={() => setCurrentStep(4)}
@@ -507,10 +507,10 @@ const Transaction: React.FC = () => {
                   </td>
                   <td className="px-4 py-2 text-center">{item.quantity}</td>
                   <td className="px-4 py-2 text-right">
-                    ${(item.unitCost || 0).toFixed(2)}
+                    ₱{(item.unitCost || 0).toFixed(2)}
                   </td>
                   <td className="px-4 py-2 text-right font-medium">
-                    ${(item.totalCost || 0).toFixed(2)}
+                    ₱{(item.totalCost || 0).toFixed(2)}
                   </td>
                 </tr>
               ))}
@@ -521,7 +521,7 @@ const Transaction: React.FC = () => {
                   Total:
                 </td>
                 <td className="px-4 py-2 text-right font-semibold text-lg text-[#3D727A]">
-                  ${calculateTotal().toFixed(2)}
+                  ₱{calculateTotal().toFixed(2)}
                 </td>
               </tr>
             </tfoot>

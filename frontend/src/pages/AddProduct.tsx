@@ -200,7 +200,7 @@ const AddProduct: React.FC = () => {
                   <label htmlFor="wholesaleCost" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
                     <div className="flex items-center gap-2">
                       <span className="material-symbols-outlined text-sm">payments</span>
-                      Wholesale Cost ($) *
+                      Wholesale Cost (₱) *
                     </div>
                   </label>
                   <input
@@ -222,7 +222,7 @@ const AddProduct: React.FC = () => {
                   <label htmlFor="retailPrice" className="block font-label-md text-label-md text-on-surface-variant mb-xs uppercase tracking-wider">
                     <div className="flex items-center gap-2">
                       <span className="material-symbols-outlined text-sm">sell</span>
-                      Retail Price ($) *
+                      Retail Price (₱) *
                     </div>
                   </label>
                   <input

@@ -14,24 +14,21 @@ const TRANSACTION_TYPES = [
     label: 'Inbound',
     description: 'Receive stock from suppliers',
     icon: Package,
-    color: 'bg-green-500',
-    hoverColor: 'hover:bg-green-600'
+    color: 'bg-green-500'
   },
   {
     type: 'OUTBOUND',
     label: 'Outbound',
     description: 'Send orders to clients',
     icon: Truck,
-    color: 'bg-blue-500',
-    hoverColor: 'hover:bg-blue-600'
+    color: 'bg-blue-500'
   },
   {
     type: 'USAGE',
     label: 'Salon Usage',
     description: 'Products used in salon services',
     icon: Scissors,
-    color: 'bg-purple-500',
-    hoverColor: 'hover:bg-purple-600'
+    color: 'bg-purple-500'
   }
 ];
 
@@ -55,14 +52,14 @@ const StaffDashboard: React.FC = () => {
 
           {/* Quick Action Buttons */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TRANSACTION_TYPES.map(({ type, label, description, icon: Icon, color, hoverColor }) => (
+            {TRANSACTION_TYPES.map(({ type, label, description, icon: Icon, color }) => (
               <button
                 key={type}
                 onClick={() => handleTransactionTypeSelect(type)}
-                className={`p-8 rounded-xl border-2 border-gray-200 transition-all duration-200 transform hover:scale-105 hover:shadow-lg ${hoverColor} text-white group`}
+                className={`p-8 rounded-xl border-2 border-gray-200 shadow-lg ${color} text-white active:scale-95 transition-transform duration-100`}
               >
                 <div className="flex flex-col items-center space-y-4">
-                  <div className={`w-20 h-20 ${color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}>
+                  <div className={`w-20 h-20 ${color} rounded-full flex items-center justify-center`}>
                     <Icon className="w-10 h-10 text-white" />
                   </div>
                   <div className="text-center">
@@ -80,7 +77,7 @@ const StaffDashboard: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button
                 onClick={() => navigate('/transactions/recent')}
-                className="p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200"
+                className="p-6 rounded-lg border-2 border-gray-300 shadow-md active:scale-95 transition-transform duration-100"
               >
                 <div className="flex items-center justify-center space-x-3">
                   <span className="text-2xl">📋</span>
@@ -90,7 +87,7 @@ const StaffDashboard: React.FC = () => {
               
               <button
                 onClick={() => navigate('/staff/active-orders')}
-                className="p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200"
+                className="p-6 rounded-lg border-2 border-gray-300 shadow-md active:scale-95 transition-transform duration-100"
               >
                 <div className="flex items-center justify-center space-x-3">
                   <span className="text-2xl">📦</span>

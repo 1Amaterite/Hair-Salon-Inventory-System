@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Package, MapPin, Clock, CheckCircle, AlertCircle, Truck } from 'lucide-react';
+import { Search, Filter, MapPin, Clock, CheckCircle, AlertCircle, Truck } from 'lucide-react';
 import orderApi, { Order } from '../api/orderApi';
 import SideNavigation from '../components/SideNavigation';
 
@@ -8,8 +8,8 @@ const ActiveOrders: React.FC = () => {
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'ALL' | 'PENDING' | 'IN_TRANSIT' | 'DELIVERED' | 'CANCELLED'>('ALL');
-  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [_statusFilter, _setStatusFilter] = useState<'ALL' | 'PENDING' | 'IN_TRANSIT' | 'DELIVERED' | 'CANCELLED'>('ALL');
+  const [_showFilterModal, _setShowFilterModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [showStatusModal, setShowStatusModal] = useState(false);
 
@@ -19,7 +19,7 @@ const ActiveOrders: React.FC = () => {
 
   useEffect(() => {
     filterOrders();
-  }, [orders, searchTerm, statusFilter]);
+  }, [orders, searchTerm, _statusFilter]);
 
   const fetchOrders = async () => {
     try {
@@ -44,8 +44,8 @@ const ActiveOrders: React.FC = () => {
       );
     }
 
-    if (statusFilter !== 'ALL') {
-      filtered = filtered.filter(order => order.status === statusFilter);
+    if (_statusFilter !== 'ALL') {
+      filtered = filtered.filter(order => order.status === _statusFilter);
     }
 
     setFilteredOrders(filtered);
@@ -132,7 +132,7 @@ const ActiveOrders: React.FC = () => {
             <p className="text-gray-600 mt-1">Manage outbound deliveries and track shipment statuses</p>
           </div>
           <button
-            onClick={() => setShowFilterModal(true)}
+            onClick={() => _setShowFilterModal(true)}
             className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
           >
             <Filter className="w-5 h-5" />
@@ -242,7 +242,7 @@ const ActiveOrders: React.FC = () => {
           {filteredOrders.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-500">
-                {searchTerm || statusFilter !== 'ALL'
+                {searchTerm || _statusFilter !== 'ALL'
                   ? 'No orders match your filters.'
                   : 'No active orders found.'}
               </div>

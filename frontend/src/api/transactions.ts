@@ -4,7 +4,7 @@ export interface Transaction {
   id: string;
   productId: string;
   userId: string;
-  type: 'INBOUND' | 'OUTBOUND' | 'USAGE' | 'TRANSFER' | 'ADJUSTMENT';
+  type: 'INBOUND' | 'OUTBOUND' | 'USAGE';
   quantity: number;
   remarks?: string;
   createdAt: string;
@@ -30,7 +30,7 @@ export interface Transaction {
 
 export interface CreateTransactionRequest {
   productId: string;
-  type: 'INBOUND' | 'OUTBOUND' | 'USAGE' | 'TRANSFER' | 'ADJUSTMENT';
+  type: 'INBOUND' | 'OUTBOUND' | 'USAGE';
   quantity: number;
   remarks?: string;
   destinationId?: string;

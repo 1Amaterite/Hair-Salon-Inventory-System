@@ -2,11 +2,26 @@ const { z } = require('zod');
 
 // Base product schema for common validations
 const productBaseSchema = {
-  sku: z.string().min(1, 'SKU is required').max(50, 'SKU cannot exceed 50 characters'),
-  name: z.string().min(1, 'Product name is required').max(200, 'Product name cannot exceed 200 characters'),
+  sku: z.string()
+    .min(1, 'SKU is required')
+    .max(50, 'SKU cannot exceed 50 characters')
+    .refine(val => val.trim().length > 0, 'SKU cannot be just whitespace')
+    .refine(val => /^[a-zA-Z0-9\-_]+$/.test(val), 'SKU can only contain letters, numbers, hyphens, and underscores')
+    .refine(val => val.replace(/[^a-zA-Z0-9]/g, '').length >= 2, 'SKU must contain at least 2 alphanumeric characters'),
+  name: z.string()
+    .min(1, 'Product name is required')
+    .max(200, 'Product name cannot exceed 200 characters')
+    .refine(val => val.trim().length > 0, 'Product name cannot be just whitespace')
+    .refine(val => val.replace(/[^a-zA-Z0-9]/g, '').length >= 2, 'Product name must contain at least 2 alphanumeric characters'),
   category: z.string().min(1, 'Category is required').max(100, 'Category cannot exceed 100 characters'),
-  size: z.string().max(50, 'Size cannot exceed 50 characters').optional(),
-  variant: z.string().max(100, 'Variant cannot exceed 100 characters').optional(),
+  size: z.string()
+    .max(50, 'Size cannot exceed 50 characters')
+    .refine(val => !val || val.trim().length > 0, 'Size cannot be just whitespace')
+    .optional(),
+  variant: z.string()
+    .max(100, 'Variant cannot exceed 100 characters')
+    .refine(val => !val || val.trim().length > 0, 'Variant cannot be just whitespace')
+    .optional(),
   wholesaleCost: z.number().positive('Wholesale cost must be positive').max(99999.99, 'Wholesale cost cannot exceed 99999.99'),
   retailPrice: z.number().positive('Retail price must be positive').max(99999.99, 'Retail price cannot exceed 99999.99'),
   reorderThreshold: z.number().min(0, 'Reorder threshold cannot be negative').max(9999, 'Reorder threshold cannot exceed 9999'),
@@ -18,11 +33,28 @@ const createProductSchema = z.object(productBaseSchema);
 
 // Update product schema (all fields optional)
 const updateProductSchema = z.object({
-  sku: z.string().min(1, 'SKU is required').max(50, 'SKU cannot exceed 50 characters').optional(),
-  name: z.string().min(1, 'Product name is required').max(200, 'Product name cannot exceed 200 characters').optional(),
+  sku: z.string()
+    .min(1, 'SKU is required')
+    .max(50, 'SKU cannot exceed 50 characters')
+    .refine(val => val.trim().length > 0, 'SKU cannot be just whitespace')
+    .refine(val => /^[a-zA-Z0-9\-_]+$/.test(val), 'SKU can only contain letters, numbers, hyphens, and underscores')
+    .refine(val => val.replace(/[^a-zA-Z0-9]/g, '').length >= 2, 'SKU must contain at least 2 alphanumeric characters')
+    .optional(),
+  name: z.string()
+    .min(1, 'Product name is required')
+    .max(200, 'Product name cannot exceed 200 characters')
+    .refine(val => val.trim().length > 0, 'Product name cannot be just whitespace')
+    .refine(val => val.replace(/[^a-zA-Z0-9]/g, '').length >= 2, 'Product name must contain at least 2 alphanumeric characters')
+    .optional(),
   category: z.string().min(1, 'Category is required').max(100, 'Category cannot exceed 100 characters').optional(),
-  size: z.string().max(50, 'Size cannot exceed 50 characters').optional(),
-  variant: z.string().max(100, 'Variant cannot exceed 100 characters').optional(),
+  size: z.string()
+    .max(50, 'Size cannot exceed 50 characters')
+    .refine(val => !val || val.trim().length > 0, 'Size cannot be just whitespace')
+    .optional(),
+  variant: z.string()
+    .max(100, 'Variant cannot exceed 100 characters')
+    .refine(val => !val || val.trim().length > 0, 'Variant cannot be just whitespace')
+    .optional(),
   wholesaleCost: z.number().positive('Wholesale cost must be positive').max(99999.99, 'Wholesale cost cannot exceed 99999.99').optional(),
   retailPrice: z.number().positive('Retail price must be positive').max(99999.99, 'Retail price cannot exceed 99999.99').optional(),
   reorderThreshold: z.number().min(0, 'Reorder threshold cannot be negative').max(9999, 'Reorder threshold cannot exceed 9999').optional(),

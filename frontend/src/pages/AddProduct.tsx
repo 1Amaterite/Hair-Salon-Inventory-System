@@ -16,6 +16,7 @@ const AddProduct: React.FC = () => {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 
   const categories = [
@@ -27,14 +28,47 @@ const AddProduct: React.FC = () => {
     'Accessories'
   ];
 
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case 'sku':
+        if (!value.trim()) return 'SKU is required';
+        if (!/^[a-zA-Z0-9\-_]+$/.test(value)) return 'SKU can only contain letters, numbers, hyphens, and underscores';
+        if (value.replace(/[^a-zA-Z0-9]/g, '').length < 2) return 'SKU must contain at least 2 alphanumeric characters';
+        break;
+      case 'name':
+        if (!value.trim()) return 'Product name is required';
+        if (value.replace(/[^a-zA-Z0-9]/g, '').length < 2) return 'Product name must contain at least 2 alphanumeric characters';
+        break;
+      case 'size':
+      case 'variant':
+        if (value && !value.trim()) return `${name} cannot be just whitespace`;
+        break;
+    }
+    return '';
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
+    setErrors({});
+
+    // Validate all fields
+    const newErrors: { [key: string]: string } = {};
+    newErrors.sku = validateField('sku', productData.sku);
+    newErrors.name = validateField('name', productData.name);
+    newErrors.size = validateField('size', productData.size || '');
+    newErrors.variant = validateField('variant', productData.variant || '');
+
+    if (Object.values(newErrors).some(error => error)) {
+      setErrors(newErrors);
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await productsApi.createProduct(productData);
-      
+
       if (response.success) {
         setMessage({ type: 'success', text: 'Product created successfully!' });
         // Reset form
@@ -49,6 +83,7 @@ const AddProduct: React.FC = () => {
           reorderThreshold: 0,
           leadTimeDays: 0,
         });
+        setErrors({});
       } else {
         setMessage({ type: 'error', text: response.message });
       }
@@ -120,9 +155,17 @@ const AddProduct: React.FC = () => {
                     value={productData.sku}
                     onChange={handleChange}
                     required
-                    className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md"
+                    className={`w-full px-md py-sm rounded-lg border bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:outline-none transition-colors font-body-md ${
+                      errors.sku ? 'border-error focus:border-error' : 'border-outline-variant focus:border-primary'
+                    }`}
                     placeholder="e.g., SHAM-001"
                   />
+                  {errors.sku && (
+                    <p className="mt-sm text-sm text-error flex items-center gap-sm">
+                      <span className="material-symbols-outlined text-sm">error</span>
+                      {errors.sku}
+                    </p>
+                  )}
                 </div>
 
                 {/* Product Name */}
@@ -140,9 +183,17 @@ const AddProduct: React.FC = () => {
                     value={productData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md"
+                    className={`w-full px-md py-sm rounded-lg border bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:outline-none transition-colors font-body-md ${
+                      errors.name ? 'border-error focus:border-error' : 'border-outline-variant focus:border-primary'
+                    }`}
                     placeholder="e.g., Premium Shampoo"
                   />
+                  {errors.name && (
+                    <p className="mt-sm text-sm text-error flex items-center gap-sm">
+                      <span className="material-symbols-outlined text-sm">error</span>
+                      {errors.name}
+                    </p>
+                  )}
                 </div>
 
                 {/* Category */}
@@ -174,9 +225,17 @@ const AddProduct: React.FC = () => {
                     name="size"
                     value={productData.size}
                     onChange={handleChange}
-                    className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md"
+                    className={`w-full px-md py-sm rounded-lg border bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:outline-none transition-colors font-body-md ${
+                      errors.size ? 'border-error focus:border-error' : 'border-outline-variant focus:border-primary'
+                    }`}
                     placeholder="e.g., 500ml"
                   />
+                  {errors.size && (
+                    <p className="mt-sm text-sm text-error flex items-center gap-sm">
+                      <span className="material-symbols-outlined text-sm">error</span>
+                      {errors.size}
+                    </p>
+                  )}
                 </div>
 
                 {/* Variant */}
@@ -190,9 +249,17 @@ const AddProduct: React.FC = () => {
                     name="variant"
                     value={productData.variant}
                     onChange={handleChange}
-                    className="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:border-primary focus:outline-none transition-colors font-body-md"
+                    className={`w-full px-md py-sm rounded-lg border bg-surface-container-lowest text-on-background placeholder:text-on-surface-variant focus:outline-none transition-colors font-body-md ${
+                      errors.variant ? 'border-error focus:border-error' : 'border-outline-variant focus:border-primary'
+                    }`}
                     placeholder="e.g., Dry Hair"
                   />
+                  {errors.variant && (
+                    <p className="mt-sm text-sm text-error flex items-center gap-sm">
+                      <span className="material-symbols-outlined text-sm">error</span>
+                      {errors.variant}
+                    </p>
+                  )}
                 </div>
 
                 {/* Wholesale Cost */}

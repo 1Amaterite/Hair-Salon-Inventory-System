@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { getNavbarConfig } from '../utils/navbarConfig';
-import { Clock, LayoutDashboard, Package, Plus, Tag, MapPin, Truck } from 'lucide-react';
+import { Clock, LayoutDashboard, Package, Plus, Tag, MapPin, Truck, UserPlus } from 'lucide-react';
 
 interface SideNavigationProps {
   configType?: 'standard' | 'without-recent' | 'with-recent';
@@ -40,6 +40,10 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
     navigate('/admin/destinations');
   };
 
+  const handleSignup = () => {
+    navigate('/signup');
+  };
+
   const handleActiveOrders = () => {
     navigate('/staff/active-orders');
   };
@@ -66,6 +70,14 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ configType = 'standard'
       show: config.showReports && user?.role === 'ADMIN',
       active: isActiveRoute('/admin/reports'),
       icon: LayoutDashboard
+    },
+    {
+      key: 'signup',
+      label: 'Add Employee',
+      onClick: handleSignup,
+      show: user?.role === 'ADMIN',
+      active: isActiveRoute('/signup'),
+      icon: UserPlus
     },
     {
       key: 'staff-dashboard',

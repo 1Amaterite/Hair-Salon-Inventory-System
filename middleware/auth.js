@@ -105,6 +105,20 @@ function authenticateToken(req, res, next) {
 }
 
 /**
+ * Admin Role Middleware
+ * Ensures the authenticated user has ADMIN role
+ */
+function requireAdmin(req, res, next) {
+  if (!req.user || req.user.role !== 'ADMIN') {
+    return res.status(403).json({
+      success: false,
+      message: 'Admin access required'
+    });
+  }
+  next();
+}
+
+/**
  * Optional Authentication Middleware
  * Attaches user to request if token is present, but doesn't block if not
  */
@@ -162,5 +176,6 @@ function optionalAuth(req, res, next) {
 
 module.exports = {
   authenticateToken,
+  requireAdmin,
   optionalAuth
 };

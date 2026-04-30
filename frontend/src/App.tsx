@@ -9,6 +9,7 @@ import DeliveryDestinations from './pages/DeliveryDestinations';
 import ActiveOrders from './pages/ActiveOrders';
 import TransactionPage from './pages/Transaction';
 import StaffDashboard from './pages/StaffDashboard';
+import Signup from './pages/Signup';
 import { UserProvider } from './contexts/UserContext';
 
 // Protected Route Component
@@ -114,6 +115,14 @@ function App() {
             element={
               <AdminRoute>
                 <DeliveryDestinations />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <AdminRoute>
+                <Signup />
               </AdminRoute>
             }
           />

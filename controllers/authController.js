@@ -157,6 +157,96 @@ async function getProfile(req, res) {
 }
 
 /**
+ * Register new user (admin only)
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+async function signup(req, res) {
+  try {
+    const { name, username, password, role } = req.body;
+
+    // Input validation
+    if (!name || !username || !password || !role) {
+      return res.status(400).json({
+        success: false,
+        message: 'All fields are required'
+      });
+    }
+
+    // Validate role
+    if (!['ADMIN', 'STAFF'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid role. Must be ADMIN or STAFF'
+      });
+    }
+
+    // Check if username already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { username }
+    });
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: 'Username already exists'
+      });
+    }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Create new user
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        username,
+        passwordHash,
+        role,
+        isActive: true
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        role: true,
+        isActive: true,
+        createdAt: true
+      }
+    });
+
+    // Create audit log entry
+    await prisma.auditLog.create({
+      data: {
+        userId: req.user.userId,
+        action: 'CREATE',
+        entityType: 'USER',
+        entityId: newUser.id,
+        changes: {
+          createdUser: newUser.username,
+          role: newUser.role,
+          createdBy: req.user.username
+        }
+      }
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      data: newUser
+    });
+
+  } catch (error) {
+    console.error('Signup error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+}
+
+/**
  * Logout user (create audit log)
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
@@ -195,6 +285,7 @@ async function logout(req, res) {
 
 module.exports = {
   login,
+  signup,
   getProfile,
   logout
 };

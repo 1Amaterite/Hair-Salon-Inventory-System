@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { login, getProfile, logout } = require('../controllers/authController');
-const { authenticateToken } = require('../middleware/auth');
+const { login, signup, getProfile, logout } = require('../controllers/authController');
+const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
 /**
  * POST /auth/login
@@ -9,6 +9,13 @@ const { authenticateToken } = require('../middleware/auth');
  * Public endpoint (no authentication required)
  */
 router.post('/login', login);
+
+/**
+ * POST /auth/signup
+ * Register new user (admin only)
+ * Protected endpoint (authentication + admin role required)
+ */
+router.post('/signup', authenticateToken, requireAdmin, signup);
 
 /**
  * GET /auth/profile
